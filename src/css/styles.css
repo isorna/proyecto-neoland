@@ -1,0 +1,29 @@
+table {
+  background-color: aqua;
+  th {
+    text-transform: uppercase;
+  }
+  img {
+    width: 100%;
+  }
+  thead {
+    background-color: chartreuse;
+  }
+  tbody {
+    background-color: burlywood;
+  }
+  tfoot {
+    background-color: coral;
+  }
+}
+
+input:invalid,
+textarea:invalid {
+  background-color: ivory;
+  outline: 2px solid red;
+}
+textarea {
+  display: block;
+  width: 100%;
+  height: 100px;
+}
