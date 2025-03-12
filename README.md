@@ -2,6 +2,4 @@
 
 Repositorio para el bootcamp fullstack de Neoland
 
-## Hola Mundo
-
-### Que tal?
+## Vamos a cambiar el readme
