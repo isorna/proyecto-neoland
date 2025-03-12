@@ -4,6 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Noticias de Neoland: Formnulario de contacto</title>
+    <style>
+      input:invalid,
+      textarea:invalid {
+        background-color: ivory;
+        outline: 2px solid red;
+      }
+      textarea {
+        display: block;
+        width: 100%;
+        height: 100px;
+      }
+    </style>
   </head>
 <body>
   <header>
@@ -16,71 +28,35 @@
   </header>
   <main>
     <form>
-      <input type="hidden" value="valor oculto" id="campo-oculto" name="campo-oculto">
-      <datalist id="markers">
-        <option value="0"></option>
-        <option value="25"></option>
-        <option value="50"></option>
-        <option value="75"></option>
-        <option value="100"></option>
-      </datalist>
+      <input type="hidden" value="es_ES" id="idioma" name="idioma">
       <h1>Contacta con nosotros</h1>
       <p>Por favor, rellena los campos y haz click en enviar.</p>
-      <label for="nombre">Nombre</label>
-      <input type="text" id="nombre" name="nombre" placeholder="Escribe tu nombre" autocomplete="off" list="markers" required>
-      <br>
-      <label for="email">Enter your example.com email:</label>
-      <input type="email" id="email" pattern=".+@example\.com" size="30" />
-      <br>
-      <label for="fecha">Fecha</label>
-      <input type="datetime-local" id="fecha" name="fecha" readonly>
-      <br>
-      <label for="foto">Foto</label>
-      <input type="file" id="foto" name="foto" accept="image/*">
-      <br>
-      <label for="numero">Número</label>
-      <input type="number" id="numero" name="numero" value="16" min="1" max="99" step="5">
-      <br>
-      <label for="rango">Rango</label>
-      <input type="range" id="rango" name="rango" step="25" list="markers">
-      <br>
-      <label for=password"">Contraseña</label>
-      <input type="password" id="password" name="password">
-      <br>
-      <label for="radio1">Radio 1</label>
-      <input type="radio" id="radio1" name="radios" value="radio1">
-      <label for="radio2">Radio 2</label>
-      <input type="radio" id="radio2" name="radios" value="radio2">
-      <label for="radio3">Radio 3</label>
-      <input type="radio" id="radio3" name="radios" value="radio3">
-      <br>
-      <label for="check1">Checkbox 1</label>
-      <input type="checkbox" id="check1" name="checks" value="check1">
-      <label for="check2">Checkbox 2</label>
-      <input type="checkbox" id="check2" name="checks" value="check2">
-      <label for="check3">Checkbox 3</label>
-      <input type="checkbox" id="check3" name="checks" value="check3">
-      <br>
-      <label for="selector">Selector</label>
-      <select name="selector" id="selector">
-        <option value="opcion1">valor 1</option>
-        <option value="opcion2">valor 2</option>
-        <option value="opcion3">valor 3</option>
-        <option value="opcion4">valor 4</option>
-      </select>
-      <br>
-      <label for="multiple">Múltiple</label>
-      <select name="multiple" id="multiple" multiple>
-        <option value="opcion1">valor 1</option>
-        <option value="opcion2">valor 2</option>
-        <option value="opcion3">valor 3</option>
-        <option value="opcion4">valor 4</option>
-      </select>
-      <br>
-      <label for="texto">Texto</label>
-      <textarea name="texto" id="texto"></textarea>
-      <br>
-      <button type="button" disabled>botón normal</button>
+      <fieldset>
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre" name="nombre" placeholder="Escribe tu nombre" autocomplete="off" minlength="3">
+      </fieldset>
+      <fieldset>
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" size="30" required />
+      </fieldset>
+      <fieldset>
+        <label for="password">Contraseña</label>
+        <input type="password" id="password" name="password" minlength="8" pattern="[0-9a-zA-Z\W]{8,16}" required />
+      </fieldset>
+      <fieldset>
+        <label for="edad">Edad</label>
+        <input type="number" id="edad" name="edad" value="18" min="18" max="99" step="1">
+      </fieldset>
+      <fieldset>
+        <label for="check1">Acepto las condiciones del servicio</label>
+        <input type="checkbox" id="check1" name="checks" value="condiciones" required>
+        <label for="check2">Quiero suscribirme a la newsletter</label>
+        <input type="checkbox" id="check2" name="checks" value="subscripcion">
+      </fieldset>
+      <fieldset>
+        <label for="texto">Texto del mensaje</label>
+        <textarea name="texto" id="texto" required></textarea>
+      </fieldset>
       <button type="reset">resetear</button>
       <button type="submit">enviar</button>
     </form>
