@@ -4,15 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Noticias de Neoland: página de inicio</title>
+    <link rel="stylesheet" href="/css/reset.css">
     <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/styles.mobile.css" media="screen and (max-width: 480px)">
+    <link rel="stylesheet" href="/css/styles.desktop.css" media="screen and (min-width: 481px)">
   </head>
 <body>
   <header>
     <h1>Noticias de Neoland</h1>
     <nav>
       <menu>
-        <li><a href="/">Volver al inicio</a></li>
-        <li><a href="/formulario.html">Formulario</a></li>
+        <li><a href="/" class="activo">Volver al inicio</a></li>
+        <li><a href="/formulario.html" id="link-formulario">Formulario</a></li>
       </menu>
     </nav>
   </header>
@@ -23,7 +26,7 @@
       <li><a href="/noticia.html">Segunda noticia</a></li>
       <li><a href="/noticia.html">Tercera noticia</a></li>
     </ol>
-    <table border="1" width="100%" cellspacing="0">
+    <table cellspacing="0">
       <caption>Listado de noticias</caption>
       <thead>
         <tr>

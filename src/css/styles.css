@@ -1,18 +1,93 @@
+
+/**
+ HOJA DE ESTILOS GENERAL DE LA PÁGINA
+ - TIPOGRAFÍAS
+ - COLORES
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ol>li>a {
+  background-color: darkgray;
+}
+li a {
+  background-color: orange;
+}
+
+a {
+  font-size: 14px;
+}
+
+a.activo {
+  font-size: 24px;
+}
+
+#link-formulario {
+  color: white;
+  font-weight: bold;
+  font-size: 30px;
+}
+
+table img[alt="avatar"] {
+  border-radius: 50%;
+}
+
 table {
+  border: 1px solid blue;
   background-color: aqua;
+  width: 100%;
   th {
     text-transform: uppercase;
+  }
+  td,
+  th {
+    border: 1px solid lightblue;
   }
   img {
     width: 100%;
   }
-  thead {
+  &>thead {
     background-color: chartreuse;
   }
-  tbody {
+  &>tbody {
     background-color: burlywood;
   }
-  tfoot {
+  &>tfoot {
     background-color: coral;
   }
 }
@@ -27,3 +102,4 @@ textarea {
   width: 100%;
   height: 100px;
 }
+  */
