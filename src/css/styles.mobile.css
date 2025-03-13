@@ -2,4 +2,9 @@
 /**
  HOJA DE ESTILOS PARA MÓVILES (max-width: 480px)
  - DISPOSICIÓN
+ - Ajustes de tipografías para móviles
  */
+
+ body {
+  font-size: 18px;
+ }
