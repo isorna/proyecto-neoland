@@ -6,13 +6,78 @@
  */
 
  body {
+  padding: 10px;
   font-size: 18px;
 
+  h1,
+  h2,
+  h3,
+  h4,
+  h4,
+  h6,
+  button {
+    letter-spacing: 0px;
+  }
+  h1 { font-size: 2em; }
+  h2 { font-size: 1.5em; }
+
+  header {
+    menu {
+      padding: 0 10px;
+      li {
+        display: inline-block;
+        padding: 5px;
+        margin-bottom: 5px;
+      }
+    }
+  }
+
+  main {
+    margin: 20px 0 0;
+  }
+
+  form {
+    margin: 10px auto 0;
+    width: 90%;
+
+    fieldset {
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+  }
+
   footer {
+    margin: 20px 0 0;
     ul {
       li:last-child {
         padding-bottom: 50px;
       }
+    }
+  }
+
+  table {
+    width: 100%;
+    thead {
+      tr {
+        th:nth-child(3),
+        th:nth-child(4) {
+          display: none;
+        }
+      }
+    }
+    tbody {
+      tr {
+        td:first-child {
+          width: 90px;
+        }
+        td:nth-child(3),
+        td:nth-child(4) {
+          display: none;
+        }
+      }
+    }
+    tfoot {
+      display: none;
     }
   }
  }

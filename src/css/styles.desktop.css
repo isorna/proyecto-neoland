@@ -5,8 +5,56 @@
  */
 
  body {
+  padding: 10px;
+
+  header {
+    menu {
+      padding: 0 10px;
+      li {
+        display: inline-block;
+        padding: 10px;
+      }
+    }
+  }
+
+  main {
+    margin: 20px 0 0;
+  }
+
+  form {
+    margin: 10px auto 0;
+    width: 80%;
+
+    fieldset {
+      padding: 10px;
+      margin-bottom: 20px;
+      input:not([type="checkbox"]):not([type="radio"]):not(input[type="number"]),
+      select,
+      textarea {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+      }
+    }
+  }
+
+  table {
+    margin: 0 auto;
+    width: 80%;
+    tbody {
+      tr {
+        td {
+          padding: 5px;
+        }
+        td:first-child {
+          width: 90px;
+        }
+      }
+    }
+  }
 
   footer {
+    margin: 20px 0 0;
     ul {
       li:last-child {
         padding-bottom: 100px;

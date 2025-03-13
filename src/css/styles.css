@@ -34,8 +34,12 @@ body {
     letter-spacing: -3px;
   }
   h1 { font-size: 3em; }
-  h2 { font-size: 2em; }
-  h3 { font-size: 1.5em; }
+  h2,
+  article h1,
+  main h1 { font-size: 2em; }
+  h3,
+  footer h1,
+  aside h1 { font-size: 1.5em; }
   h4 { font-size: 1.17em; }
   h5 { font-size: 1em; }
   h6 { font-size: 0.83em; }
@@ -45,6 +49,27 @@ body {
   header {
     h1 {
       color: #014c29;
+    }
+    menu {
+      li {
+        background-color: rgb(128, 59, 13);
+        border-radius: 5px;
+        a {
+          color: white;
+          &:hover {
+            color: grey;
+          }
+        }
+
+        &+li {
+          background-color: rgba(128, 59, 13, 50%);
+          a {
+            &:hover {
+              color: rgb(46, 45, 45);
+            }
+          }
+        }
+      }
     }
   }
 
@@ -109,6 +134,11 @@ body {
 
   form {
     color: #444444;
+
+    fieldset {
+      border: 2px dotted black;
+    }
+
     button {
       line-height: 2em;
       border: 2px solid transparent;
@@ -136,8 +166,8 @@ body {
     font-size: 1em;
   }
 
-  article {
-    p {
+  #comentarios {
+    li {
       line-height: 1em;
       &>cite {
         font-style: italic;
