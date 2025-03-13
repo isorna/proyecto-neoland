@@ -7,4 +7,12 @@
 
  body {
   font-size: 18px;
+
+  footer {
+    ul {
+      li:last-child {
+        padding-bottom: 50px;
+      }
+    }
+  }
  }

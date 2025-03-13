@@ -3,3 +3,14 @@
  HOJA DE ESTILOS PARA ESCRITORIO (min-width: 481px)
  - DISPOSICIÓN
  */
+
+ body {
+
+  footer {
+    ul {
+      li:last-child {
+        padding-bottom: 100px;
+      }
+    }
+  }
+ }

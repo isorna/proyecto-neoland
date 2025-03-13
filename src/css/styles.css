@@ -4,7 +4,9 @@
  - TIPOGRAFÍAS
  - COLORES
  */
-
+html {
+  background: linear-gradient(45deg, antiquewhite, rgb(3, 222, 3));
+}
 body {
   font-family: "Roboto", sans-serif;
   font-optical-sizing: auto;
@@ -14,6 +16,7 @@ body {
   font-size: 24px;
   line-height: 1.3em;
   letter-spacing: -1px;
+  color: darkgreen;
 
   /* Titulares y botones */
   h1,
@@ -29,7 +32,6 @@ body {
     font-style: normal;
     line-height: 1.3em;
     letter-spacing: -3px;
-    white-space: nowrap;
   }
   h1 { font-size: 3em; }
   h2 { font-size: 2em; }
@@ -40,15 +42,90 @@ body {
   button {
     letter-spacing: 0;
   }
+  header {
+    h1 {
+      color: #014c29;
+    }
+  }
 
   /* Texto destacado */
   a,
   th {
     font-weight: 900;
   }
+  a {
+    color: #008b4a;
+    &:hover,
+    &:active {
+      text-decoration-style: double;
+      color: #014c29;
+    }
+  }
+
+  img {
+    border-radius: 20px;
+    max-width: 100%;
+  }
 
   table {
     font-size: 0.8em;
+    caption {
+      font-size: 0.8em;
+      text-align: right;
+    }
+    tr {
+      background-color: rgba(250, 235, 215, 70%);
+    }
+    thead,
+    tbody,
+    tfoot {
+      tr {
+        border-bottom: #008b4a 1px solid;
+        &:nth-child(even) {
+          background-color: rgba(210, 243, 227, 70%);
+        }
+        th {
+          text-transform: uppercase;
+        }
+        td,
+        th {
+          vertical-align: top;
+        }
+        td:has(img) {
+          background-color: #014c29;
+          line-height: 0;
+        }
+        td:last-of-type {
+          text-align: right;
+        }
+      }
+    }
+    tfoot {
+      th {
+        text-align: right;
+      }
+    }
+  }
+
+  form {
+    color: #444444;
+    button {
+      line-height: 2em;
+      border: 2px solid transparent;
+      border-radius: 10px;
+      background-color: #014c29;
+      color: antiquewhite;
+      cursor: pointer;
+
+      &[type="reset"] {
+        background-color: #008b4a;
+      }
+
+      &:hover,
+      &:active {
+        border-color: antiquewhite;
+      }
+    }
   }
 
   input,
@@ -57,6 +134,26 @@ body {
   select,
   option {
     font-size: 1em;
+  }
+
+  article {
+    p {
+      line-height: 1em;
+      &>cite {
+        font-style: italic;
+        color: #444444;
+      }
+    }
+  }
+
+  blockquote {
+    font-size: 1.2em;
+    line-height: 1.3em;
+    text-align: center;
+    cite {
+      display: block;
+      text-align: right;
+    }
   }
 }
 
