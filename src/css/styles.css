@@ -137,6 +137,30 @@ body {
 
     fieldset {
       border: 2px dotted black;
+
+      label:has(+ input:required) {
+        font-weight: 900;
+      }
+    }
+
+    input,
+    textarea {
+      border: 2px solid #008b4a;
+      border-radius: 10px;
+      line-height: 2em;
+      background-color: #e5e5e5;
+    }
+
+    input:invalid,
+    select:invalid,
+    textarea:invalid {
+      border-color: red;
+    }
+
+    input:read-only,
+    select:read-only,
+    textarea:read-only {
+      border-color: cornflowerblue;
     }
 
     button {

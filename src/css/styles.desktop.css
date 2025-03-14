@@ -36,6 +36,11 @@
         box-sizing: border-box;
       }
     }
+
+    input,
+    textarea {
+      padding: 5px 10px;
+    }
   }
 
   table {
