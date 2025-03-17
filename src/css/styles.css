@@ -66,8 +66,11 @@ body {
         border-radius: var(--radio-borde-boton);
         a {
           color: var(--color-fuente-3);
+          display: inline-block;
           &:hover {
             color: var(--color-fuente-4);
+            animation: rubberBand; /* referring directly to the animation's @keyframe declaration */
+            animation-duration: 2s; /* don't forget to set a duration! */
           }
         }
 
