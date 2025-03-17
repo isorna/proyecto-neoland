@@ -35,6 +35,14 @@
       margin-bottom: 20px;
       width: calc(50% - 30px);
 
+      input:not([type="checkbox"]):not([type="radio"]):not(input[type="number"]),
+      select,
+      textarea {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
       &.edad {
         display: flex;
         align-items: flex-start;
@@ -44,14 +52,6 @@
       &.checks {
         display: flex;
         flex-direction: column;
-      }
-
-      input:not([type="checkbox"]):not([type="radio"]):not(input[type="number"]),
-      select,
-      textarea {
-        display: block;
-        width: 100%;
-        box-sizing: border-box;
       }
     }
 
@@ -89,6 +89,24 @@
       li:last-child {
         padding-bottom: 100px;
       }
+    }
+  }
+
+  &#inicio {
+    display: flex;
+    flex-wrap: wrap;
+
+    header {
+      width: 100%;
+    }
+    main {
+      width: 80%;
+    }
+    aside  {
+      width: 20%;
+    }
+    footer {
+      width: 100%;
     }
   }
  }

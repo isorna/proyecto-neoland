@@ -43,12 +43,17 @@
     fieldset {
       padding: 10px;
       margin-bottom: 10px;
+
       input:not([type="checkbox"]):not([type="radio"]):not(input[type="number"]),
       select,
       textarea {
         display: block;
         width: 100%;
         box-sizing: border-box;
+      }
+
+      &.checks {
+        line-height: 40px;
       }
     }
 
