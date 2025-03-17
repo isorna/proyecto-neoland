@@ -23,6 +23,7 @@
 
   header {
     menu {
+      --radio-borde-boton: 2px;
       padding: 0 10px;
       li {
         display: inline-block;

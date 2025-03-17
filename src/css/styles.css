@@ -5,7 +5,17 @@
  - COLORES
  */
 html {
-  background: linear-gradient(45deg, antiquewhite, rgb(3, 222, 3));
+  --color-fondo-1: antiquewhite;
+  --color-fondo-2: rgb(3, 222, 3);
+  --color-fondo-3: rgb(128, 59, 13);
+  --color-fondo-4: rgba(128, 59, 13, 50%);
+  --color-fuente-1: rgb(46, 45, 45);
+  --color-fuente-2: darkgreen;
+  --color-fuente-3: white;
+  --color-fuente-4: grey;
+  --font-size-por-defecto: 24px;
+  --radio-borde-boton: 5px;
+  background: linear-gradient(45deg, var(--color-fondo-1), var(--color-fondo-2));
 }
 body {
   font-family: "Roboto", sans-serif;
@@ -13,10 +23,10 @@ body {
   font-weight: 400;
   font-style: normal;
   font-variation-settings: "wdth" 100;
-  font-size: 24px;
+  font-size: var(--font-size-por-defecto);
   line-height: 1.3em;
   letter-spacing: -1px;
-  color: darkgreen;
+  color: var(--color-fuente-2);
 
   /* Titulares y botones */
   h1,
@@ -52,20 +62,20 @@ body {
     }
     menu {
       li {
-        background-color: rgb(128, 59, 13);
-        border-radius: 5px;
+        background-color: var(--color-fondo-3);
+        border-radius: var(--radio-borde-boton);
         a {
-          color: white;
+          color: var(--color-fuente-3);
           &:hover {
-            color: grey;
+            color: var(--color-fuente-4);
           }
         }
 
         &+li {
-          background-color: rgba(128, 59, 13, 50%);
+          background-color: var(--color-fondo-4);
           a {
             &:hover {
-              color: rgb(46, 45, 45);
+              color: var(--color-fuente-1);
             }
           }
         }
