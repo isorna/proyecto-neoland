@@ -22,12 +22,30 @@
   }
 
   form {
+    display: flex;
     margin: 10px auto 0;
     width: 80%;
+    flex-wrap: wrap;
+    row-gap: 20px;
+    justify-content: space-between;
+    align-items: stretch;
 
     fieldset {
       padding: 10px;
       margin-bottom: 20px;
+      width: calc(50% - 30px);
+
+      &.edad {
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      &.checks {
+        display: flex;
+        flex-direction: column;
+      }
+
       input:not([type="checkbox"]):not([type="radio"]):not(input[type="number"]),
       select,
       textarea {
@@ -35,6 +53,13 @@
         width: 100%;
         box-sizing: border-box;
       }
+    }
+
+    .botones {
+      display: flex;
+      justify-content: flex-end;
+      width: 100%;
+      column-gap: 20px;
     }
 
     input,
