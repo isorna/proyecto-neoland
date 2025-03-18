@@ -132,6 +132,11 @@ body {
           background-color: #008b4a;
         }
       }
+      img {
+        opacity: 0;
+        visibility: hidden;
+        animation: aparecer 5s ease-in-out infinite;
+      }
     }
     thead,
     tbody,
@@ -273,5 +278,25 @@ body {
   }
   100% {
     transform: rotateY(360deg);
+  }
+}
+
+@keyframes desaparecer {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    display: none;
+  }
+}
+
+@keyframes aparecer {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+    visibility: visible;
   }
 }
