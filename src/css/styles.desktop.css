@@ -81,6 +81,7 @@ body {
           padding: 10px;
           display: flex;
           flex-direction: column;
+          row-gap: 5px;
         }
       }
     }
