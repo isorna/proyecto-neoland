@@ -58,8 +58,10 @@ body {
       display: flex;
       column-gap: 10px;
       row-gap: 20px;
-      padding: 20px 112px;
+      /* Uso un margen negativo para salirme del main */
       margin: 0 -112px;
+      /* compenso con un padding el margen negativo, y devuelvo a su sitio la capa */
+      padding: 20px 112px;
 
       p {
         padding: 10px;
@@ -74,7 +76,6 @@ body {
 
       li {
         width: 25%;
-        box-sizing: border-box;
 
         .pokemon {
           padding: 10px;
