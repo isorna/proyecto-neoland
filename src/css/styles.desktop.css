@@ -3,3 +3,108 @@
  HOJA DE ESTILOS PARA ESCRITORIO (min-width: 481px)
  - DISPOSICIÓN
  */
+
+body {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  justify-content: space-between;
+  max-width: 1024px;
+  margin: 0 auto;
+
+  header,
+  main {
+    width: 100%;
+    display: flex;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  header {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    nav,
+    h1 {
+      width: 100%;
+    }
+    .menu-principal {
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      height: 90px;
+
+      li {
+        display: flex;
+        justify-content: center;
+        width: calc(100% / 5);
+
+        a {
+          display: inline-flex;
+          height: 100%;
+          width: 100%;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+
+    }
+  }
+  main {
+    display: flex;
+    flex-direction: column;
+    form {
+      display: flex;
+      column-gap: 10px;
+      row-gap: 20px;
+      padding: 20px 112px;
+      margin: 0 -112px;
+
+      p {
+        padding: 10px;
+      }
+    }
+
+    .lista-pokemons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      padding: 10px;
+
+      li {
+        width: 25%;
+        box-sizing: border-box;
+
+        .pokemon {
+          padding: 10px;
+          display: flex;
+          flex-direction: column;
+        }
+      }
+    }
+  }
+
+  /* Están por fuera del main porque se pueden reutilizar en cualquier elemento */
+  .tipos {
+    display: flex;
+    column-gap: 10px;
+
+    .tag {
+      border-radius: 5px;
+      line-height: 2em;
+      text-align: center;
+      padding: 0 1em;
+
+      /**
+      selector es:
+      <element class="tag">
+      <element class="tag">
+      */
+      &:has(+ .tag),
+      &+.tag {
+        flex-grow: 1;
+        padding: 0;
+      }
+    }
+  }
+}
