@@ -2,4 +2,9 @@
 
 Repositorio para el bootcamp fullstack de Neoland
 
-## Vamos a cambiar el readme
+## Práctica del periódico
+
+Está en la carpeta ```/practicas/periodico```.
+
+* HTML
+* CSS
