@@ -21,11 +21,21 @@ window.addEventListener("DOMContentLoaded", onDOMContentLoaded)
  */
 function onDOMContentLoaded() {
   let botonBuscar = document.getElementById('botonBuscar')
-  console.log('Ya está disponible la página')
 
   // Asigno los eventos que se observan a partir de que cargue la página
   // 2. CLICK en botón de submit
   botonBuscar.addEventListener('click', buscarPokemon)
+
+  // Leo la lista de pokemons y pinto el HTML
+  leerListaPokemons()
+}
+
+function leerListaPokemons() {
+  // let listaPokemons = document.getElementsByClassName('lista-pokemons')[0]
+  console.log('Cargando la lista de pokemons...')
+  pokedex.forEach((element) => {
+    console.log(element.name.english)
+  });
 }
 
 /**
