@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="/css/styles.mobile.css" media="screen and (max-width: 480px)">
     <link rel="stylesheet" href="/css/styles.desktop.css" media="screen and (min-width: 481px)">
+    <script src="/js/pokemon.js" defer></script>
   </head>
 <body>
   <header>
@@ -28,6 +29,11 @@
       <input type="text" name="busqueda" id="busqueda">
       <button type="submit">Buscar</button>
       <p>Busca un Pokémon por su nombre o usando su número de la Pokédex Nacional.</p>
+    </form>
+    <form action="/">
+      <label for="nuevoPokemon">Añadir pokemon</label>
+      <input type="text" name="nuevoPokemon" id="nuevoPokemon">
+      <button type="button" onclick="addPokemon()" >Añadir</button>
     </form>
     <ol class="lista-pokemons">
       <li>
