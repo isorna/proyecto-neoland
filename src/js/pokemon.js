@@ -31,11 +31,14 @@ function onDOMContentLoaded() {
 }
 
 function leerListaPokemons() {
-  // let listaPokemons = document.getElementsByClassName('lista-pokemons')[0]
-  console.log('Cargando la lista de pokemons...')
-  pokedex.forEach((element) => {
-    console.log(element.name.english)
-  });
+  let listaPokemons = document.getElementsByClassName('lista-pokemons')[0]
+
+  for (let i = 0; i < 10; i++) {
+    let nuevoPokemon = document.createElement('li')
+    nuevoPokemon.innerText = pokedex[i].name.english
+    console.log('añadiendo', pokedex[i].name.english)
+    listaPokemons.appendChild(nuevoPokemon)
+  }
 }
 
 /**
