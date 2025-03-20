@@ -6,11 +6,17 @@ while (condicion !== 'he terminado') {
 
 const POKEMONS = []// Cargar aquí del pokedex.json
 
-for (let typeIndex in POKEMONS[i].type) {
-  let typeValue = POKEMONS[i].type[typeIndex]
-  console.log(typeIndex, typeValue)
+// Bucle for..in para Objetos
+for (let pokemonIndex in POKEMONS[0]) {
+  console.log(pokemonIndex, POKEMONS[0][pokemonIndex])
 }
 
+// Bucle for..of para Arrays (NO UTILIZA EL INDICE)
 for (let pokemon of POKEMONS) {
   console.log(pokemon.name.english)
+}
+
+// Bucle FOR estándar
+for (let i = 0; i < POKEMONS.length; i++) {
+  console.log(POKEMONS[i].name.english)
 }
