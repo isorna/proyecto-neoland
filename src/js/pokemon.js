@@ -27,16 +27,26 @@ function onDOMContentLoaded() {
   botonBuscar.addEventListener('click', buscarPokemon)
 
   // Leo la lista de pokemons y pinto el HTML
-  leerListaPokemons()
+  leerListaPokemons(5)
 }
 
-function leerListaPokemons() {
+/**
+ * Lee la lista de pokemons de la base de datos y pinta el HTML
+ *
+ * @listens DOMContentLoaded
+ * @param {Number} [maxPokemons=10] Número máximo de pokemons a mostrar
+ */
+function leerListaPokemons(maxPokemons = 10) {// Valor por defecto
   let listaPokemons = document.getElementsByClassName('lista-pokemons')[0]
 
-  for (let i = 0; i < 10; i++) {
+  // 4. FOR cada pokemon de la base de datos
+  for (let i = 0; i < maxPokemons; i++) {
     let nuevoPokemon = document.createElement('li')
-    nuevoPokemon.innerText = pokedex[i].name.english
+    let nombrePokemon = document.createElement('p')
+    nombrePokemon.innerText = pokedex[i].name.english
+    nombrePokemon.classList.add('nombre')
     console.log('añadiendo', pokedex[i].name.english)
+    nuevoPokemon.appendChild(nombrePokemon)
     listaPokemons.appendChild(nuevoPokemon)
   }
 }
@@ -47,6 +57,19 @@ function leerListaPokemons() {
 function buscarPokemon() {
   // 1. SET busqueda = INPUT nombre o número de pokemon
   let campoBusqueda = document.getElementById('busqueda')
+  let resultadosBusqueda = []
+  let returnValue = ''
+
+  // Busco en la base de datos
+  // ...
+  if (resultadosBusqueda.length > 0) {
+    // 4.1. IF encuentro pokemon RETURN datos del pokemon
+    returnValue = `He encontrado ${resultadosBusqueda.length} pokemons`
+    returnValue = 'He encontrado ' + resultadosBusqueda.length + ' pokemons'
+  } else {
+    // 4.2. ELSE devuelvo "pokemon no encontrado"
+    returnValue = 'pokemon no encontrado'
+  }
 
   // 4. FOR cada pokemon de la base de datos
   // 4.1. IF encuentro pokemon RETURN datos del pokemon
