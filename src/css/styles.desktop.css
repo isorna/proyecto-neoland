@@ -84,6 +84,11 @@ body {
           display: flex;
           flex-direction: column;
           row-gap: 5px;
+          cursor: pointer;
+
+          &:hover {
+            border: 5px solid dodgerblue;
+          }
         }
       }
     }
