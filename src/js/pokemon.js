@@ -39,15 +39,91 @@ function onDOMContentLoaded() {
 function leerListaPokemons(maxPokemons = 10) {// Valor por defecto
   let listaPokemons = document.getElementsByClassName('lista-pokemons')[0]
 
+  // 3. Vacío la tabla antes de rellenar con los nuevos pokemons
+
+  while (listaPokemons.firstChild) {
+    listaPokemons.remove(listaPokemons.firstChild)
+  }
+
   // 4. FOR cada pokemon de la base de datos
   for (let i = 0; i < maxPokemons; i++) {
+    let pokemon = pokedex[i]
     let nuevoPokemon = document.createElement('li')
+    let fichaPokemon = document.createElement('figure')
+    fichaPokemon.classList.add('pokemon')
+
+    let imagenPokemon = document.createElement('img')
+    imagenPokemon.setAttribute('src', `/pokedex/images/${String(pokemon.id).padStart(3, '0')}.png`)
+    imagenPokemon.setAttribute('alt', pokemon.name.english)
+    imagenPokemon.setAttribute('title', pokemon.name.english)
+
+    let idPokemon = document.createElement('figcaption')
+    idPokemon.classList.add('numero')
+    idPokemon.innerText = `Nº ${String(pokemon.id).padStart(4, '0')}`
+
     let nombrePokemon = document.createElement('p')
-    nombrePokemon.innerText = pokedex[i].name.english
     nombrePokemon.classList.add('nombre')
-    console.log('añadiendo', pokedex[i].name.english)
-    nuevoPokemon.appendChild(nombrePokemon)
+    nombrePokemon.innerText = pokemon.name.english
+
+    let tiposPokemon = document.createElement('p')
+    tiposPokemon.classList.add('tipos')
+
+    // for (let j = 0; j < pokemon.type.length; j++) {
+    //   let tipoDelPokemon = document.createElement('span')
+    //   tipoDelPokemon.classList.add('tag', pokemon.type[j].toLowerCase())
+    //   tipoDelPokemon.innerText = pokemon.type[j]
+    //   tiposPokemon.appendChild(tipoDelPokemon)
+    // }
+    // EQUIVALENCIAS:
+    // Siempre que no necesitemos el índice para algo en particular,
+    // podemos usar esta versión del for..of
+    for (let tipoPokemon of pokemon.type) {
+      let tipoDelPokemon = document.createElement('span')
+      tipoDelPokemon.classList.add('tag', tipoPokemon.toLowerCase())
+      tipoDelPokemon.innerText = tipoPokemon
+      tiposPokemon.appendChild(tipoDelPokemon)
+    }
+    // Bucle While (sería menos óptimo)
+    // let j = 0
+    // while (pokemon.type[j] !== undefined) {
+    // while (j < 2) {
+    //   // if (pokemon.type.length > 1) {
+    //   if (pokemon.type[j] !== undefined) {
+    //     let tipoDelPokemon = document.createElement('span')
+    //     tipoDelPokemon.classList.add('tag', pokemon.type[j].toLowerCase())
+    //     tipoDelPokemon.innerText = pokemon.type[j]
+    //     tiposPokemon.appendChild(tipoDelPokemon)
+    //   }
+    //   j++
+    // }
+
+    fichaPokemon.appendChild(imagenPokemon)
+    fichaPokemon.appendChild(idPokemon)
+    fichaPokemon.appendChild(nombrePokemon)
+    fichaPokemon.appendChild(tiposPokemon)
+    nuevoPokemon.appendChild(fichaPokemon)
     listaPokemons.appendChild(nuevoPokemon)
+
+    // Bucle for..in, para recorrer clave+valor dentro de un objeto
+    // for (let estadistica in pokemon.base) {
+    //   console.log(estadistica, pokemon.base[estadistica])
+    // }
+
+    // Opción usando el innerHTML NO RECOMENDADA salvo que uses REACT, ANGULAR o LIT
+    // let pokemon = pokedex[i]
+    // let nuevoPokemon = document.createElement('li')
+    // nuevoPokemon.innerHTML = `
+    // <figure class="pokemon">
+    //   <img src="${`/pokedex/images/${String(pokemon.id).padStart(3, '0')}.png`}" alt="${pokemon.name.english}" title="${pokemon.name.english}">
+    //   <figcaption class="numero">Nº ${String(pokemon.id).padStart(4, '0')}</figcaption>
+    //   <p class="nombre">${pokemon.name.english}</p>
+    //   <p class="tipos">
+    //     <span class="tag ${pokemon.type[0].toLowerCase()}">${pokemon.type[0]}</span>
+    //     ${ (pokemon.type.length > 1) `<span class="tag ${pokemon.type[1].toLowerCase()}">${pokemon.type[0]}</span>`}
+    //   </p>
+    // </figure>
+    // `
+    // listaPokemons.appendChild(nuevoPokemon)
   }
 }
 
