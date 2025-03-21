@@ -73,9 +73,11 @@ body {
       flex-wrap: wrap;
       justify-content: flex-start;
       padding: 10px;
+      gap: 10px;
 
       li {
         width: 25%;
+        max-width: 187px;
 
         .pokemon {
           padding: 10px;

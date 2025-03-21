@@ -21,140 +21,131 @@ window.addEventListener("DOMContentLoaded", onDOMContentLoaded)
  */
 function onDOMContentLoaded() {
   let botonBuscar = document.getElementById('botonBuscar')
+  let formulario = document.getElementById('formulario')
 
   // Asigno los eventos que se observan a partir de que cargue la página
-  // 2. CLICK en botón de submit
-  botonBuscar.addEventListener('click', buscarPokemon)
+  botonBuscar.addEventListener('click', () => console.log('hice click'))
+  formulario.addEventListener('submit', buscarPokemon)
 
   // Leo la lista de pokemons y pinto el HTML
-  leerListaPokemons(5)
+  leerListaPokemons(12)
 }
 
+
 /**
- * Lee la lista de pokemons de la base de datos y pinta el HTML
+ * Lee la lista de pokemons de la base de datos y la pinta en la
+ * tabla con la clase "lista-pokemons".
  *
- * @listens DOMContentLoaded
- * @param {Number} [maxPokemons=10] Número máximo de pokemons a mostrar
+ * @param {Number} [maxPokemons=10] - Número de pokemons a mostrar
+ *                                      por defecto se muestra 10
  */
-function leerListaPokemons(maxPokemons = 10) {// Valor por defecto
+function leerListaPokemons(maxPokemons = 10/* Valor por defecto */) {
   let listaPokemons = document.getElementsByClassName('lista-pokemons')[0]
 
-  // 3. Vacío la tabla antes de rellenar con los nuevos pokemons
-
+  // Vacío la tabla antes de rellenar con los nuevos pokemons
   while (listaPokemons.firstChild) {
-    listaPokemons.remove(listaPokemons.firstChild)
+    listaPokemons.removeChild(listaPokemons.firstChild)
   }
 
-  // 4. FOR cada pokemon de la base de datos
+  // Por cada pokemon de la base de datos
   for (let i = 0; i < maxPokemons; i++) {
-    let pokemon = pokedex[i]
-    let nuevoPokemon = document.createElement('li')
-    let fichaPokemon = document.createElement('figure')
-    fichaPokemon.classList.add('pokemon')
-
-    let imagenPokemon = document.createElement('img')
-    imagenPokemon.setAttribute('src', `/pokedex/images/${String(pokemon.id).padStart(3, '0')}.png`)
-    imagenPokemon.setAttribute('alt', pokemon.name.english)
-    imagenPokemon.setAttribute('title', pokemon.name.english)
-
-    let idPokemon = document.createElement('figcaption')
-    idPokemon.classList.add('numero')
-    idPokemon.innerText = `Nº ${String(pokemon.id).padStart(4, '0')}`
-
-    let nombrePokemon = document.createElement('p')
-    nombrePokemon.classList.add('nombre')
-    nombrePokemon.innerText = pokemon.name.english
-
-    let tiposPokemon = document.createElement('p')
-    tiposPokemon.classList.add('tipos')
-
-    // for (let j = 0; j < pokemon.type.length; j++) {
-    //   let tipoDelPokemon = document.createElement('span')
-    //   tipoDelPokemon.classList.add('tag', pokemon.type[j].toLowerCase())
-    //   tipoDelPokemon.innerText = pokemon.type[j]
-    //   tiposPokemon.appendChild(tipoDelPokemon)
-    // }
-    // EQUIVALENCIAS:
-    // Siempre que no necesitemos el índice para algo en particular,
-    // podemos usar esta versión del for..of
-    for (let tipoPokemon of pokemon.type) {
-      let tipoDelPokemon = document.createElement('span')
-      tipoDelPokemon.classList.add('tag', tipoPokemon.toLowerCase())
-      tipoDelPokemon.innerText = tipoPokemon
-      tiposPokemon.appendChild(tipoDelPokemon)
-    }
-    // Bucle While (sería menos óptimo)
-    // let j = 0
-    // while (pokemon.type[j] !== undefined) {
-    // while (j < 2) {
-    //   // if (pokemon.type.length > 1) {
-    //   if (pokemon.type[j] !== undefined) {
-    //     let tipoDelPokemon = document.createElement('span')
-    //     tipoDelPokemon.classList.add('tag', pokemon.type[j].toLowerCase())
-    //     tipoDelPokemon.innerText = pokemon.type[j]
-    //     tiposPokemon.appendChild(tipoDelPokemon)
-    //   }
-    //   j++
-    // }
-
-    fichaPokemon.appendChild(imagenPokemon)
-    fichaPokemon.appendChild(idPokemon)
-    fichaPokemon.appendChild(nombrePokemon)
-    fichaPokemon.appendChild(tiposPokemon)
-    nuevoPokemon.appendChild(fichaPokemon)
-    listaPokemons.appendChild(nuevoPokemon)
-
-    // Bucle for..in, para recorrer clave+valor dentro de un objeto
-    // for (let estadistica in pokemon.base) {
-    //   console.log(estadistica, pokemon.base[estadistica])
-    // }
-
-    // Opción usando el innerHTML NO RECOMENDADA salvo que uses REACT, ANGULAR o LIT
-    // let pokemon = pokedex[i]
-    // let nuevoPokemon = document.createElement('li')
-    // nuevoPokemon.innerHTML = `
-    // <figure class="pokemon">
-    //   <img src="${`/pokedex/images/${String(pokemon.id).padStart(3, '0')}.png`}" alt="${pokemon.name.english}" title="${pokemon.name.english}">
-    //   <figcaption class="numero">Nº ${String(pokemon.id).padStart(4, '0')}</figcaption>
-    //   <p class="nombre">${pokemon.name.english}</p>
-    //   <p class="tipos">
-    //     <span class="tag ${pokemon.type[0].toLowerCase()}">${pokemon.type[0]}</span>
-    //     ${ (pokemon.type.length > 1) `<span class="tag ${pokemon.type[1].toLowerCase()}">${pokemon.type[0]}</span>`}
-    //   </p>
-    // </figure>
-    // `
-    // listaPokemons.appendChild(nuevoPokemon)
+    addPokemonToList(pokedex[i])
   }
 }
 
 /**
- * Busco un pokemon determinado usando el formulario de búsqueda
+ * Searches for a Pokémon based on the input from the search field.
+ * It prevents the default form submission, retrieves the search input
+ * (either a Pokémon name or ID), and searches the pokedex for matching entries.
+ * The search results are displayed in the list of Pokémon in the HTML.
+ *
+ * @param {Event} event - The form submission event to prevent default behavior.
+ *
+ * The function:
+ * - Checks if the search input is a number (ID) or a string (name).
+ * - Filters the pokedex for matching Pokémon based on the input.
+ * - Clears the current Pokémon list in the HTML.
+ * - Adds the search results to the list.
+ * - Logs the number of Pokémon found or if none are found.
  */
-function buscarPokemon() {
-  // 1. SET busqueda = INPUT nombre o número de pokemon
+function buscarPokemon(event) {
+  // Paramos el envío del formulario
+  event.preventDefault()
+  let listaPokemons = document.getElementsByClassName('lista-pokemons')[0]
+  // Almacenar el nombre o número de pokemon que buscamos
   let campoBusqueda = document.getElementById('busqueda')
   let resultadosBusqueda = []
-  let returnValue = ''
 
-  // Busco en la base de datos
-  // ...
-  if (resultadosBusqueda.length > 0) {
-    // 4.1. IF encuentro pokemon RETURN datos del pokemon
-    returnValue = `He encontrado ${resultadosBusqueda.length} pokemons`
-    returnValue = 'He encontrado ' + resultadosBusqueda.length + ' pokemons'
-  } else {
-    // 4.2. ELSE devuelvo "pokemon no encontrado"
-    returnValue = 'pokemon no encontrado'
+  if (campoBusqueda.value === '') {
+    leerListaPokemons(12)
+    return
   }
 
-  // 4. FOR cada pokemon de la base de datos
-  // 4.1. IF encuentro pokemon RETURN datos del pokemon
-  // 4.2. ELSE devuelvo "pokemon no encontrado"
-  // 5. SHOW tabla de datos (lista-pokemons) limpia
-  // 6.1. IF hay pokemon, lo añado a la lista con DISPLAY
-  // 6.1.1. IF hay más de un pokemon, con FOR por cada pokemon añado su ficha a la lista
-  // 6.2. ELSE no hay pokemon, muestro "pokemon no encontrado" en lugar de la lista-pokemons
+  // Busco en la base de datos
+  if (Number.isInteger(Number(campoBusqueda.value))) {
+    console.log('buscamos por id de pokemon')
+    resultadosBusqueda = pokedex.filter((pokemon) => pokemon.id === Number(campoBusqueda.value))
+  } else {
+    console.log('buscamos por nombre de pokemon')
+    resultadosBusqueda = pokedex.filter((pokemon) => pokemon.name.english.toLowerCase().includes(campoBusqueda.value.toLowerCase()))
+  }
 
-  console.log('Estoy buscando', campoBusqueda.value)
-  console.log('buscando pokemon... He encontrado ', pokedex)
+  // Si no encontramos ninguno, avisamos al usuario y salimos
+  if (resultadosBusqueda.length === 0) {
+    window.alert('Pokemon no encontrado')
+    return
+  }
+
+  // Vacío la tabla antes de rellenar con los nuevos pokemons
+  while (listaPokemons.firstChild) {
+    listaPokemons.removeChild(listaPokemons.firstChild)
+  }
+
+  // Por cada pokemon encontrado
+  for (let i = 0; i < resultadosBusqueda.length; i++) {
+    addPokemonToList(resultadosBusqueda[i])
+  }
+}
+
+/**
+ * Añade un LI a la lista ordenada de pokemons con los datos del pokemon y la estructura HTML
+ *
+ * @param {Object} pokemon - Objeto con los datos del pokemon a mostrar
+ * @returns {void}
+ */
+function addPokemonToList(pokemon){
+  let listaPokemons = document.getElementsByClassName('lista-pokemons')[0]
+  let nuevoPokemon = document.createElement('li')
+  let fichaPokemon = document.createElement('figure')
+  fichaPokemon.classList.add('pokemon')
+
+  let imagenPokemon = document.createElement('img')
+  imagenPokemon.setAttribute('src', `/pokedex/images/${String(pokemon.id).padStart(3, '0')}.png`)
+  imagenPokemon.setAttribute('alt', pokemon.name.english)
+  imagenPokemon.setAttribute('title', pokemon.name.english)
+
+  let idPokemon = document.createElement('figcaption')
+  idPokemon.classList.add('numero')
+  idPokemon.innerText = `Nº ${String(pokemon.id).padStart(4, '0')}`
+
+  let nombrePokemon = document.createElement('p')
+  nombrePokemon.classList.add('nombre')
+  nombrePokemon.innerText = pokemon.name.english
+
+  let tiposPokemon = document.createElement('p')
+  tiposPokemon.classList.add('tipos')
+
+  for (let tipoPokemon of pokemon.type) {
+    let tipoDelPokemon = document.createElement('span')
+    tipoDelPokemon.classList.add('tag', tipoPokemon.toLowerCase())
+    tipoDelPokemon.innerText = tipoPokemon
+    tiposPokemon.appendChild(tipoDelPokemon)
+  }
+
+  fichaPokemon.appendChild(imagenPokemon)
+  fichaPokemon.appendChild(idPokemon)
+  fichaPokemon.appendChild(nombrePokemon)
+  fichaPokemon.appendChild(tiposPokemon)
+  nuevoPokemon.appendChild(fichaPokemon)
+  listaPokemons.appendChild(nuevoPokemon)
 }
