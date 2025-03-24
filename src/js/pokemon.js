@@ -27,7 +27,46 @@ function onDOMContentLoaded() {
 
   // Leo la lista de pokemons y pinto el HTML
   leerListaPokemons(12)
+
+  // Informo de los favoritos al usuario
+  mostrarFavoritos()
 }
+
+/**
+ * Muestra los pokemons marcados como favoritos en la lista de favoritos.
+ * Si no hay pokemons marcados como favoritos, oculta la lista de favoritos.
+ */
+function mostrarFavoritos() {
+  let listaFavoritos = document.getElementById('listaFavoritos')
+  let favoritos = JSON.parse(localStorage.getItem('favoritos'))
+
+  while (listaFavoritos.firstChild) {
+    listaFavoritos.removeChild(listaFavoritos.firstChild)
+  }
+
+  if (favoritos?.length > 0) {
+    listaFavoritos.closest('.favorites').classList.add('visible')
+    favoritos.forEach((id) => {
+      let pokemon = pokedex.find((pokemon) => String(pokemon.id) === id)
+      let li = document.createElement('li')
+      li.textContent = pokemon.name.english
+      listaFavoritos.appendChild(li)
+    })
+  } else {
+    listaFavoritos.closest('.favorites').classList.remove('visible')
+  }
+}
+
+/**
+ * Toggles the favorite status of a Pokémon when its figure element is clicked.
+ *
+ * This function checks if the Pokémon, identified by its dataset ID, is already
+ * in the list of favorites stored in localStorage. If it is, the Pokémon is
+ * removed from the favorites list; otherwise, it is added. The 'favorite' class
+ * is also toggled on the clicked element to visually indicate its status.
+ *
+ * @param {Event} event - The click event triggered on the Pokémon's figure element.
+ */
 
 function guardarFavorito(event) {
   let listaFavoritos = []
@@ -35,9 +74,6 @@ function guardarFavorito(event) {
   if (localStorage.getItem('favoritos')) {
     listaFavoritos = JSON.parse(localStorage.getItem('favoritos'))
   }
-
-  // this se corresponde con el figure, ya que es la etiqueta que tiene asignado el evento
-  console.log('Ficha pokemon', this.dataset.id, listaFavoritos)
 
   // ¿Está guardado mi id en favoritos?
   if (listaFavoritos.includes(this.dataset.id)) {
@@ -51,6 +87,8 @@ function guardarFavorito(event) {
   }
   // Actualizo local storage
   localStorage.setItem('favoritos', JSON.stringify(listaFavoritos))
+  // Actualizo la lista de pokemons capturados
+  mostrarFavoritos()
 }
 
 /**

@@ -68,6 +68,29 @@ body {
       }
     }
 
+    .favorites {
+      display: none;
+      flex-direction: column;
+      margin: 10px;
+      border-radius: 5px;
+      padding: 10px;
+      row-gap: 10px;
+
+      &.visible {
+        display: flex;
+      }
+
+      ul {
+        display: flex;
+        gap: 5px;
+
+        li {
+          border-radius: 5px;
+          padding: 5px;
+        }
+      }
+    }
+
     .lista-pokemons {
       display: flex;
       flex-wrap: wrap;

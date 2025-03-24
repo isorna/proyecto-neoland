@@ -40,10 +40,20 @@ html {
       form {
         background-color: #444444;
         color: white;
-        p {
+        &>p {
           background-color: #50cc71;
           color: white;
           border-radius: 5px;
+        }
+      }
+
+      .favorites {
+        background-color: rgb(237, 237, 73);
+        color: black;
+
+        li {
+          background-color: rgb(155, 155, 4);
+          color: white;
         }
       }
 
