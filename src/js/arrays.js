@@ -33,6 +33,8 @@ comprarMercadona = listaCompra.map((producto) => {
   return returnValue
 })
 
+console.log(comprarMercadona.filter((producto) => producto !== undefined))
+
 let listaPokemons = [
   {
   "id": 1,
