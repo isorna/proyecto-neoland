@@ -26,10 +26,11 @@
   <main>
     <form id="formulario" action="/api">
       <label for="busqueda">Nombre o número</label>
-      <input type="text" name="busqueda" id="busqueda">
+      <input type="text" name="busqueda" id="busqueda" minlength="3">
       <button type="submit" id="botonBuscar">Buscar</button>
       <p>Busca un Pokémon por su nombre o usando su número de la Pokédex Nacional.</p>
     </form>
+    <p class="error">Pokemon no encontrado, por favor cambia el texto de la búsqueda</p>
     <ol class="lista-pokemons">
       <li>
         <figure class="pokemon">

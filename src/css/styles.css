@@ -47,7 +47,16 @@ html {
         }
       }
 
+      .error {
+        color: red;
+        display: none;
+        &.visible {
+          display: block;
+        }
+      }
+
       .lista-pokemons {
+        min-height: 50vh;
         .pokemon {
           background-color: white;
           border-radius: 5px;

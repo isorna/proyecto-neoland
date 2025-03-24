@@ -1,4 +1,4 @@
-// 3. READ base de datos
+// Leer la base de datos
 import pokedex from '/pokedex/pokedex.json' with { type: "json" }
 
 /*
@@ -20,11 +20,9 @@ window.addEventListener("DOMContentLoaded", onDOMContentLoaded)
  * @listens DOMContentLoaded
  */
 function onDOMContentLoaded() {
-  let botonBuscar = document.getElementById('botonBuscar')
   let formulario = document.getElementById('formulario')
 
   // Asigno los eventos que se observan a partir de que cargue la página
-  botonBuscar.addEventListener('click', () => console.log('hice click'))
   formulario.addEventListener('submit', buscarPokemon)
 
   // Leo la lista de pokemons y pinto el HTML
@@ -72,10 +70,12 @@ function buscarPokemon(event) {
   // Paramos el envío del formulario
   event.preventDefault()
   let listaPokemons = document.getElementsByClassName('lista-pokemons')[0]
+  let mensajeError = document.getElementsByClassName('error')[0]
   // Almacenar el nombre o número de pokemon que buscamos
   let campoBusqueda = document.getElementById('busqueda')
   let resultadosBusqueda = []
 
+  mensajeError.classList.remove('visible')
   if (campoBusqueda.value === '') {
     leerListaPokemons(12)
     return
@@ -92,7 +92,8 @@ function buscarPokemon(event) {
 
   // Si no encontramos ninguno, avisamos al usuario y salimos
   if (resultadosBusqueda.length === 0) {
-    window.alert('Pokemon no encontrado')
+    // mostrarError('Pokemon no encontrado, por favor cambia el texto de la búsqueda')
+    mostrarErrorBusqueda()
     return
   }
 
@@ -105,6 +106,38 @@ function buscarPokemon(event) {
   for (let i = 0; i < resultadosBusqueda.length; i++) {
     addPokemonToList(resultadosBusqueda[i])
   }
+}
+
+/**
+ * Muestra un mensaje de error en la tabla de pokemons
+ *
+ * Añade la clase 'visible' al elemento con clase 'error' para mostrar el mensaje
+ * de error en la tabla de pokemons.
+ */
+function mostrarErrorBusqueda() {
+  let mensajeError = document.getElementsByClassName('error')[0]
+
+  mensajeError.classList.add('visible')
+}
+
+/**
+ * Muestra un mensaje de error en la tabla de pokemons
+ * @param {String} error - El texto del mensaje de error
+ */
+function mostrarError(error) {
+  let listaPokemons = document.getElementsByClassName('lista-pokemons')[0]
+  let mensajeError = document.createElement('li')
+  let textoMensaje = document.createElement('h1')
+
+  // Vacío la tabla antes de rellenar con los nuevos pokemons
+  while (listaPokemons.firstChild) {
+    listaPokemons.removeChild(listaPokemons.firstChild)
+  }
+
+  mensajeError.classList.add('error')
+  textoMensaje.innerText = error
+  mensajeError.appendChild(textoMensaje)
+  listaPokemons.appendChild(mensajeError)
 }
 
 /**
