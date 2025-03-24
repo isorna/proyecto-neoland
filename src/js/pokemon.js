@@ -44,10 +44,14 @@ function mostrarFavoritos() {
     listaFavoritos.removeChild(listaFavoritos.firstChild)
   }
 
+  //if (favoritos !== undefined && favoritos.length > 0) {
+  // Equivalencia
   if (favoritos?.length > 0) {
     listaFavoritos.closest('.favorites').classList.add('visible')
     favoritos.forEach((id) => {
+      // Buscamos los datos del pokemon a partir de su id
       let pokemon = pokedex.find((pokemon) => String(pokemon.id) === id)
+      // con sus datos, construimos la ficha o lo que necesitemos
       let li = document.createElement('li')
       li.textContent = pokemon.name.english
       listaFavoritos.appendChild(li)
