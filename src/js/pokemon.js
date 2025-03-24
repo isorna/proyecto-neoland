@@ -186,8 +186,9 @@ function addPokemonToList(pokemon){
   fichaPokemon.classList.add('pokemon')
   // Si tenemos guardado en localStorage este pokemon como favorito,
   // añadinmos la clase 'favorite' a la ficha del pokemon
+  // Guardo el identificador del pokemon en su dataset
   fichaPokemon.dataset.id = pokemon.id
-  // Asigno el click a las fichas de los pokemons
+  // Asigno el click a las fichas de los pokemons, para poder guardarlos como favoritos
   fichaPokemon.addEventListener('click', guardarFavorito)
 
   let imagenPokemon = document.createElement('img')
