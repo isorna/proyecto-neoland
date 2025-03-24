@@ -29,6 +29,19 @@ function onDOMContentLoaded() {
   leerListaPokemons(12)
 }
 
+function guardarFavorito(event) {
+  // Si necesitas saber exactamente la etiqueta sobre la que hiciste click:
+  // let fichaPokemon
+  // if (event.target.nodeName === 'FIGURE') {
+  //   fichaPokemon = event.target
+  // } else {
+  //   fichaPokemon = event.target.closest('figure')
+  // }
+
+  // this se corresponde con el figure, ya que es la etiqueta que tiene asignado el evento
+  console.log('Ficha pokemon', this.dataset.id)
+  this.classList.add('favorite')
+}
 
 /**
  * Lee la lista de pokemons de la base de datos y la pinta en la
@@ -39,11 +52,21 @@ function onDOMContentLoaded() {
  */
 function leerListaPokemons(maxPokemons = 10/* Valor por defecto */) {
   let listaPokemons = document.getElementsByClassName('lista-pokemons')[0]
+  let fichasPokemons = document.getElementsByClassName('pokemon')
 
   // Vacío la tabla antes de rellenar con los nuevos pokemons
+  // Antes he de limpiar la memoria, de los eventos asignados
+  for (let i = 0; i < fichasPokemons.length; i++) {
+    fichasPokemons[i].removeEventListener('click', guardarFavorito)
+  }
   while (listaPokemons.firstChild) {
     listaPokemons.removeChild(listaPokemons.firstChild)
   }
+  // Equivalencia
+  // while (listaPokemons.children.length > 0) {
+  //   console.log(listaPokemons.children[0])
+  //   listaPokemons.children[0].remove(listaPokemons.firstChild)
+  // }
 
   // Por cada pokemon de la base de datos
   for (let i = 0; i < maxPokemons; i++) {
@@ -71,6 +94,7 @@ function buscarPokemon(event) {
   event.preventDefault()
   let listaPokemons = document.getElementsByClassName('lista-pokemons')[0]
   let mensajeError = document.getElementsByClassName('error')[0]
+  let fichasPokemons = document.getElementsByClassName('pokemon')
   // Almacenar el nombre o número de pokemon que buscamos
   let campoBusqueda = document.getElementById('busqueda')
   let resultadosBusqueda = []
@@ -98,6 +122,10 @@ function buscarPokemon(event) {
   }
 
   // Vacío la tabla antes de rellenar con los nuevos pokemons
+  // Antes he de limpiar la memoria, de los eventos asignados
+  for (let i = 0; i < fichasPokemons.length; i++) {
+    fichasPokemons[i].removeEventListener('click', guardarFavorito)
+  }
   while (listaPokemons.firstChild) {
     listaPokemons.removeChild(listaPokemons.firstChild)
   }
@@ -128,8 +156,13 @@ function mostrarError(error) {
   let listaPokemons = document.getElementsByClassName('lista-pokemons')[0]
   let mensajeError = document.createElement('li')
   let textoMensaje = document.createElement('h1')
+  let fichasPokemons = document.getElementsByClassName('pokemon')
 
   // Vacío la tabla antes de rellenar con los nuevos pokemons
+  // Antes he de limpiar la memoria, de los eventos asignados
+  for (let i = 0; i < fichasPokemons.length; i++) {
+    fichasPokemons[i].removeEventListener('click', guardarFavorito)
+  }
   while (listaPokemons.firstChild) {
     listaPokemons.removeChild(listaPokemons.firstChild)
   }
@@ -151,6 +184,11 @@ function addPokemonToList(pokemon){
   let nuevoPokemon = document.createElement('li')
   let fichaPokemon = document.createElement('figure')
   fichaPokemon.classList.add('pokemon')
+  // Si tenemos guardado en localStorage este pokemon como favorito,
+  // añadinmos la clase 'favorite' a la ficha del pokemon
+  fichaPokemon.dataset.id = pokemon.id
+  // Asigno el click a las fichas de los pokemons
+  fichaPokemon.addEventListener('click', guardarFavorito)
 
   let imagenPokemon = document.createElement('img')
   imagenPokemon.setAttribute('src', `/pokedex/images/${String(pokemon.id).padStart(3, '0')}.png`)
