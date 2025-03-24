@@ -30,17 +30,27 @@ function onDOMContentLoaded() {
 }
 
 function guardarFavorito(event) {
-  // Si necesitas saber exactamente la etiqueta sobre la que hiciste click:
-  // let fichaPokemon
-  // if (event.target.nodeName === 'FIGURE') {
-  //   fichaPokemon = event.target
-  // } else {
-  //   fichaPokemon = event.target.closest('figure')
-  // }
+  let listaFavoritos = []
+
+  if (localStorage.getItem('favoritos')) {
+    listaFavoritos = JSON.parse(localStorage.getItem('favoritos'))
+  }
 
   // this se corresponde con el figure, ya que es la etiqueta que tiene asignado el evento
-  console.log('Ficha pokemon', this.dataset.id)
-  this.classList.add('favorite')
+  console.log('Ficha pokemon', this.dataset.id, listaFavoritos)
+
+  // ¿Está guardado mi id en favoritos?
+  if (listaFavoritos.includes(this.dataset.id)) {
+    // Si lo estaba, lo saco
+    listaFavoritos = listaFavoritos.filter(id => id !== this.dataset.id)
+    this.classList.remove('favorite')
+  } else {
+    // Si no lo estaba, lo guardo
+    listaFavoritos.push(this.dataset.id)
+    this.classList.add('favorite')
+  }
+  // Actualizo local storage
+  localStorage.setItem('favoritos', JSON.stringify(listaFavoritos))
 }
 
 /**
@@ -186,6 +196,14 @@ function addPokemonToList(pokemon){
   fichaPokemon.classList.add('pokemon')
   // Si tenemos guardado en localStorage este pokemon como favorito,
   // añadinmos la clase 'favorite' a la ficha del pokemon
+  let listaFavoritos = []
+  if (localStorage.getItem('favoritos')) {
+    listaFavoritos = JSON.parse(localStorage.getItem('favoritos'))
+  }
+  // ¿Está guardado mi id en favoritos?
+  if (listaFavoritos.includes(String(pokemon.id))) {
+    fichaPokemon.classList.add('favorite')
+  }
   // Guardo el identificador del pokemon en su dataset
   fichaPokemon.dataset.id = pokemon.id
   // Asigno el click a las fichas de los pokemons, para poder guardarlos como favoritos
