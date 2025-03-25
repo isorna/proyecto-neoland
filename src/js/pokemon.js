@@ -74,6 +74,7 @@ function mostrarFavoritos() {
 
 function guardarFavorito(event) {
   let listaFavoritos = []
+  let pokemon = pokedex.find((pokemon) => String(pokemon.id) === this.dataset.id)
 
   if (localStorage.getItem('favoritos')) {
     listaFavoritos = JSON.parse(localStorage.getItem('favoritos'))
@@ -93,6 +94,34 @@ function guardarFavorito(event) {
   localStorage.setItem('favoritos', JSON.stringify(listaFavoritos))
   // Actualizo la lista de pokemons capturados
   mostrarFavoritos()
+
+  // Traigo la información de su familia, llamada ASINCRONA
+  fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokemon.name.english.toLowerCase()}`)
+    // Cuando la API devuelve la información
+    .then((respuesta) => {
+      // Vemos si la respuesta es correcta
+      if (!respuesta.ok) {
+        throw new Error(`HTTP error! Status: ${respuesta.status}`);
+      }
+      // Devolvemos la información en forma de JSON
+      return respuesta.json();
+    })
+    .then((datosFamiliaPokemon) => {
+      let listaFamilias = document.getElementsByClassName('listaFamilias')[0]
+      // Trabajamos con esa información
+      // Por ejemplo crear una lista de familias
+      let familiasDelPokemon = datosFamiliaPokemon.egg_groups.map((eggGroup) => eggGroup.name)
+      familiasDelPokemon.forEach((familia) => {
+        // Comprobar antes si ya existe esa familia...
+        let li = document.createElement('li')
+        li.textContent = familia
+        listaFamilias.appendChild(li)
+      })
+      // console.log(familiasDelPokemon.join(', '))
+    })
+    .catch((mensajeError) => {
+      console.log(mensajeError)
+    })
 }
 
 /**
