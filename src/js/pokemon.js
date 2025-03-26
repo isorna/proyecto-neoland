@@ -1,5 +1,5 @@
 // Leer la base de datos
-import pokedex from '/pokedex/pokedex.json' with { type: "json" }
+import pokedex from '/api/pokedex.json' with { type: "json" }
 
 /*
 # Tarea: buscar un pokemon
@@ -279,7 +279,7 @@ function addPokemonToList(pokemon){
   fichaPokemon.addEventListener('click', guardarFavorito)
 
   let imagenPokemon = document.createElement('img')
-  imagenPokemon.setAttribute('src', `/pokedex/images/${String(pokemon.id).padStart(3, '0')}.png`)
+  imagenPokemon.setAttribute('src', `/api/images/${String(pokemon.id).padStart(3, '0')}.png`)
   imagenPokemon.setAttribute('alt', pokemon.name.english)
   imagenPokemon.setAttribute('title', pokemon.name.english)
 
