@@ -24,6 +24,8 @@ function onDOMContentLoaded() {
   // Asigno los eventos que se observan a partir de que cargue la página
   formulario.addEventListener('submit', buscarPokemon)
 
+  // Limpio la tabla de pokemons
+  vaciarListaPokemons()
   // Leo la lista de pokemons y pinto el HTML
   leerListaPokemons(12)
 
@@ -109,8 +111,10 @@ function guardarFavorito(event) {
       let listaFamilias = document.getElementsByClassName('listaFamilias')[0]
       // Trabajamos con esa información
       // Por ejemplo crear una lista de familias
-      let familiasDelPokemon = datosFamiliaPokemon.egg_groups.map((eggGroup) => eggGroup.name)
-      familiasDelPokemon.forEach((familia) => {
+      // let familiasDelPokemon = datosFamiliaPokemon.egg_groups.map((eggGroup) => eggGroup.name)
+      datosFamiliaPokemon.egg_groups
+        .map((eggGroup) => eggGroup.name)
+        .forEach((familia) => {
         // Comprobar antes si ya existe esa familia...
         let li = document.createElement('li')
         li.textContent = familia
@@ -123,13 +127,14 @@ function guardarFavorito(event) {
 }
 
 /**
- * Lee la lista de pokemons de la base de datos y la pinta en la
- * tabla con la clase "lista-pokemons".
+ * Vacía la tabla de pokemons y borra los eventos de click
+ * sobre las fichas de pokemon.
  *
- * @param {Number} [maxPokemons=10] - Número de pokemons a mostrar
- *                                      por defecto se muestra 10
+ * Se utiliza antes de rellenar la tabla con nuevos pokemons.
+ * Primero borra los eventos de click de las fichas de pokemon
+ * y luego borra los elementos de la tabla.
  */
-function leerListaPokemons(maxPokemons = 10/* Valor por defecto */) {
+function vaciarListaPokemons() {
   let listaPokemons = document.getElementsByClassName('lista-pokemons')[0]
   let fichasPokemons = document.getElementsByClassName('pokemon')
 
@@ -141,6 +146,16 @@ function leerListaPokemons(maxPokemons = 10/* Valor por defecto */) {
   while (listaPokemons.firstChild) {
     listaPokemons.removeChild(listaPokemons.firstChild)
   }
+}
+
+/**
+ * Lee la lista de pokemons de la base de datos y la pinta en la
+ * tabla con la clase "lista-pokemons".
+ *
+ * @param {Number} [maxPokemons=10] - Número de pokemons a mostrar
+ *                                      por defecto se muestra 10
+ */
+function leerListaPokemons(maxPokemons = 10/* Valor por defecto */) {
   // Equivalencia
   // while (listaPokemons.children.length > 0) {
   //   console.log(listaPokemons.children[0])
@@ -152,6 +167,7 @@ function leerListaPokemons(maxPokemons = 10/* Valor por defecto */) {
     addPokemonToList(pokedex[i])
   }
 }
+
 
 /**
  * Searches for a Pokémon based on the input from the search field.
@@ -171,9 +187,7 @@ function leerListaPokemons(maxPokemons = 10/* Valor por defecto */) {
 function buscarPokemon(event) {
   // Paramos el envío del formulario
   event.preventDefault()
-  let listaPokemons = document.getElementsByClassName('lista-pokemons')[0]
   let mensajeError = document.getElementsByClassName('error')[0]
-  let fichasPokemons = document.getElementsByClassName('pokemon')
   // Almacenar el nombre o número de pokemon que buscamos
   let campoBusqueda = document.getElementById('busqueda')
   let resultadosBusqueda = []
@@ -201,13 +215,7 @@ function buscarPokemon(event) {
   }
 
   // Vacío la tabla antes de rellenar con los nuevos pokemons
-  // Antes he de limpiar la memoria, de los eventos asignados
-  for (let i = 0; i < fichasPokemons.length; i++) {
-    fichasPokemons[i].removeEventListener('click', guardarFavorito)
-  }
-  while (listaPokemons.firstChild) {
-    listaPokemons.removeChild(listaPokemons.firstChild)
-  }
+  vaciarListaPokemons()
 
   // Por cada pokemon encontrado
   for (let i = 0; i < resultadosBusqueda.length; i++) {
@@ -235,16 +243,9 @@ function mostrarError(error) {
   let listaPokemons = document.getElementsByClassName('lista-pokemons')[0]
   let mensajeError = document.createElement('li')
   let textoMensaje = document.createElement('h1')
-  let fichasPokemons = document.getElementsByClassName('pokemon')
 
   // Vacío la tabla antes de rellenar con los nuevos pokemons
-  // Antes he de limpiar la memoria, de los eventos asignados
-  for (let i = 0; i < fichasPokemons.length; i++) {
-    fichasPokemons[i].removeEventListener('click', guardarFavorito)
-  }
-  while (listaPokemons.firstChild) {
-    listaPokemons.removeChild(listaPokemons.firstChild)
-  }
+  vaciarListaPokemons()
 
   mensajeError.classList.add('error')
   textoMensaje.innerText = error
