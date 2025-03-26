@@ -96,7 +96,7 @@ function guardarFavorito(event) {
   mostrarFavoritos()
 
   // Traigo la información de su familia, llamada ASINCRONA
-  fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokemon.name.english.toLowerCase()}`)
+  fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokemon.id}`)
     // Cuando la API devuelve la información
     .then((respuesta) => {
       // Vemos si la respuesta es correcta
@@ -104,7 +104,7 @@ function guardarFavorito(event) {
         throw new Error(`HTTP error! Status: ${respuesta.status}`);
       }
       // Devolvemos la información en forma de JSON
-      return respuesta.json();
+      return respuesta.json()
     })
     .then((datosFamiliaPokemon) => {
       let listaFamilias = document.getElementsByClassName('listaFamilias')[0]
@@ -120,7 +120,7 @@ function guardarFavorito(event) {
       // console.log(familiasDelPokemon.join(', '))
     })
     .catch((mensajeError) => {
-      console.log(mensajeError)
+      console.error(mensajeError)
     })
 }
 
