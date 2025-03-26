@@ -62,14 +62,14 @@ function mostrarFavoritos() {
 }
 
 /**
- * Toggles the favorite status of a Pokémon when its figure element is clicked.
+ * Toggles the favorite status of a Pokemon when its figure element is clicked.
  *
- * This function checks if the Pokémon, identified by its dataset ID, is already
- * in the list of favorites stored in localStorage. If it is, the Pokémon is
+ * This function checks if the Pokemon, identified by its dataset ID, is already
+ * in the list of favorites stored in localStorage. If it is, the Pokemon is
  * removed from the favorites list; otherwise, it is added. The 'favorite' class
  * is also toggled on the clicked element to visually indicate its status.
  *
- * @param {Event} event - The click event triggered on the Pokémon's figure element.
+ * @param {Event} event - The click event triggered on the Pokemon's figure element.
  */
 
 function guardarFavorito(event) {
