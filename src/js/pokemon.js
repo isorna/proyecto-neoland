@@ -3,7 +3,6 @@ import pokedex from '/pokedex/pokedex.json' with { type: "json" }
 
 /*
 # Tarea: buscar un pokemon
-
 1. Escribo en el formulario el nombre o el número del pokemon
 2. Pincho en el botón de buscar
 3. Usando Javascript, busco en la base de datos un pokemon que coincida con la búsqueda
