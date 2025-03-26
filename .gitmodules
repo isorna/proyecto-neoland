@@ -1,3 +1,0 @@
-[submodule "pokedex"]
-	path = src/api
-	url = https://github.com/fanzeyi/pokemon.json.git
