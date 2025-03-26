@@ -117,7 +117,6 @@ function guardarFavorito(event) {
         li.textContent = familia
         listaFamilias.appendChild(li)
       })
-      // console.log(familiasDelPokemon.join(', '))
     })
     .catch((mensajeError) => {
       console.error(mensajeError)
