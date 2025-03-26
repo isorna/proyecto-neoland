@@ -3,7 +3,6 @@ import pokedex from '/pokedex/pokedex.json' with { type: "json" }
 
 /*
 # Tarea: buscar un pokemon
-
 1. Escribo en el formulario el nombre o el número del pokemon
 2. Pincho en el botón de buscar
 3. Usando Javascript, busco en la base de datos un pokemon que coincida con la búsqueda
@@ -62,14 +61,14 @@ function mostrarFavoritos() {
 }
 
 /**
- * Toggles the favorite status of a Pokémon when its figure element is clicked.
+ * Toggles the favorite status of a Pokemon when its figure element is clicked.
  *
- * This function checks if the Pokémon, identified by its dataset ID, is already
- * in the list of favorites stored in localStorage. If it is, the Pokémon is
+ * This function checks if the Pokemon, identified by its dataset ID, is already
+ * in the list of favorites stored in localStorage. If it is, the Pokemon is
  * removed from the favorites list; otherwise, it is added. The 'favorite' class
  * is also toggled on the clicked element to visually indicate its status.
  *
- * @param {Event} event - The click event triggered on the Pokémon's figure element.
+ * @param {Event} event - The click event triggered on the Pokemon's figure element.
  */
 
 function guardarFavorito(event) {
@@ -117,7 +116,6 @@ function guardarFavorito(event) {
         li.textContent = familia
         listaFamilias.appendChild(li)
       })
-      // console.log(familiasDelPokemon.join(', '))
     })
     .catch((mensajeError) => {
       console.error(mensajeError)
