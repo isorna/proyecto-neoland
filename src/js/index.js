@@ -1,4 +1,4 @@
-import { User } from "./classes/User.js"
+import { User, SuperUser } from "./classes/User.js"
 
 window.addEventListener("DOMContentLoaded", onDOMContentLoaded)
 
