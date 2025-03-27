@@ -1,4 +1,6 @@
 export class User {
+  name
+  email
   /**
    * @param {string} name
    * @param {string} email
@@ -9,13 +11,15 @@ export class User {
   }
 }
 
-export class SuperUser extends User {
+export class SuperUser extends User {// HERENCIA
+  name
+  email
   /**
    * @param {string} name
    * @param {string} email
    */
   constructor(name, email) {
     super(name, email)
-    this.role = 'admin'
+    this.role = 'admin'// MIXIN
   }
 }

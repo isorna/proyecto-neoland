@@ -1,8 +1,10 @@
-import { User, SuperUser } from "./classes/User.js"
+import { User } from "./classes/User.js"
 
-window.addEventListener("DOMContentLoaded", onDOMContentLoaded)
+window.addEventListener('DOMContentLoaded', onDOMContentLoaded)
 
 const USER_DB = []
+// Equivalencia:
+// const USER_DB = new Array()
 
 /**
  * Evento que se lanza cuando el contenido de la página ha sido cargado en memoria
@@ -11,9 +13,39 @@ const USER_DB = []
  */
 function onDOMContentLoaded() {
   let signInForm = document.getElementById('signInForm')
+  let logInForm = document.getElementById('logInForm')
 
   signInForm.addEventListener('submit', onSignIn)
+  logInForm.addEventListener('submit', onLogIn)
   readUserDB()
+}
+
+/**
+ * Handles the login form submission, prevents the default form behavior,
+ * retrieves user input values, checks if a user exists in the USER_DB array,
+ * and logs the result to the console.
+ *
+ * @param {Event} event - The event object associated with the form submission.
+ */
+function onLogIn(event) {
+  event.preventDefault()
+  let name = document.getElementById('userName').value
+  let email = document.getElementById('userEmail').value
+
+  // Buscar en la BBDD si existe el usuario
+  let userExists = USER_DB.findIndex((user) => user.name === name && user.email === email)
+
+  // Y notificar en consecuencia
+  if (userExists >= 0) {
+    document.getElementById('loginInMessageOk').classList.toggle('hidden')
+    // Oculto los formularios
+    setTimeout(() => {
+      document.getElementById('signInForm').classList.toggle('hidden')
+      document.getElementById('logInForm').classList.toggle('hidden')
+    }, 500)
+  } else {
+    document.getElementById('loginInMessageKo').classList.toggle('hidden')
+  }
 }
 
 /**
@@ -31,6 +63,12 @@ function onSignIn(event) {
 
   USER_DB.push(newUser)
   updateUserDB()
+
+  // Informo al usuario del resultado de la operación
+  document.getElementById('signInMessageOk').classList.toggle('hidden')
+  setTimeout(() => {
+    document.getElementById('signInMessageOk').classList.toggle('hidden')
+  }, 1000)
 }
 
 /**
@@ -53,6 +91,8 @@ function readUserDB() {
 
   if (localStorage.getItem('USER_DB')) {
     savedUsers = JSON.parse(localStorage.getItem('USER_DB'))
+      // Usamos la clase User también para montar la BBDD al cargar la página
+      .map((user) => new User(user.name, user.email))
   }
   USER_DB.push(...savedUsers)
   console.log(USER_DB)
