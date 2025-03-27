@@ -1,7 +1,11 @@
 // Model definitions
-import { translate } from './lib/translate.js'
+import { translate } from '../lib/translate.js'
 
-// Patrón: Factory
+export const ARTICLE_TYPES = {
+  COMPLEX: 'complex',
+  SIMPLE: 'simple'
+}
+
 class SimpleArticle {
   constructor(name) {
     this.name = name
@@ -10,13 +14,14 @@ class SimpleArticle {
 }
 // Herencia & Mixin
 class ComplexArticle extends SimpleArticle {
-  constructor(name, qty, price) {
+  constructor(name, qty = 1, price = 0) {
     super(name)
-    this.qty = qty || 1
-    this.price = price || 0
+    this.qty = qty
+    this.price = price
   }
 }
 
+// Patrón: Factory
 export class ArticleFactory {
   createArticle(type, name, qty, price) {
     switch(type) {

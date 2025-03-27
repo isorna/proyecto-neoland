@@ -11,6 +11,7 @@ export class User {
   }
 }
 
+// @logUser // Patrón decorador no-estándar en JS
 export class SuperUser extends User {// HERENCIA
   name
   email
@@ -22,4 +23,12 @@ export class SuperUser extends User {// HERENCIA
     super(name, email)
     this.role = 'admin'// MIXIN
   }
+}
+
+// Patrón: Decorator
+export function logUser(userInstance) {
+  userInstance.log = function() {
+    console.info('LOG', this.name)
+  }
+  return userInstance
 }

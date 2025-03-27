@@ -1,8 +1,15 @@
-import { User } from "./classes/User.js"
+import { User, logUser } from "./classes/User.js"
+import { SingletonDB } from './classes/SingletonDB.js'
+import { ArticleFactory, ARTICLE_TYPES } from './classes/Article.js'
 
+// Patrón: Observer
 window.addEventListener('DOMContentLoaded', onDOMContentLoaded)
 
-const USER_DB = []
+// Patrón Singleton
+const USER_DB = new SingletonDB()
+const ARTICLES_DB = new SingletonDB()
+
+// const USER_DB = []
 // Equivalencia:
 // const USER_DB = new Array()
 
@@ -15,6 +22,15 @@ function onDOMContentLoaded() {
   let signInForm = document.getElementById('signInForm')
   let logInForm = document.getElementById('logInForm')
 
+  // Patrón Factoría
+  const factoriaObjetos = new ArticleFactory()
+  // Creo varios artículos de ejemplo
+  console.log(factoriaObjetos.createArticle(ARTICLE_TYPES.SIMPLE, 'leche'))
+  console.log(factoriaObjetos.createArticle(ARTICLE_TYPES.COMPLEX, 'carne', 3, 4))
+  console.log(factoriaObjetos.createArticle(ARTICLE_TYPES.COMPLEX, 'fruta'))
+  console.log(factoriaObjetos.createTranslatedArticle(ARTICLE_TYPES.COMPLEX, 'fruta'))
+
+  // Patrón: Observer
   signInForm.addEventListener('submit', onSignIn)
   logInForm.addEventListener('submit', onLogIn)
   readUserDB()
@@ -33,7 +49,7 @@ function onLogIn(event) {
   let email = document.getElementById('userEmail').value
 
   // Buscar en la BBDD si existe el usuario
-  let userExists = USER_DB.findIndex((user) => user.name === name && user.email === email)
+  let userExists = USER_DB.get().findIndex((user) => user.name === name && user.email === email)
 
   // Y notificar en consecuencia
   if (userExists >= 0) {
@@ -61,6 +77,10 @@ function onSignIn(event) {
   let email = document.getElementById('email').value
   let newUser = new User(name, email)
 
+  // Patron decorador:
+  logUser(newUser)
+  newUser.log()
+
   USER_DB.push(newUser)
   updateUserDB()
 
@@ -75,7 +95,7 @@ function onSignIn(event) {
  * Updates the local storage with the latest state of the USER_DB array.
  */
 function updateUserDB() {
-  localStorage.setItem('USER_DB', JSON.stringify(USER_DB))
+  localStorage.setItem('USER_DB', JSON.stringify(USER_DB.get()))
 }
 
 /**
@@ -94,6 +114,9 @@ function readUserDB() {
       // Usamos la clase User también para montar la BBDD al cargar la página
       .map((user) => new User(user.name, user.email))
   }
+  if (USER_DB.get() === undefined) {
+    console.log('inicializo el singleton de la base de datos')
+  }
   USER_DB.push(...savedUsers)
-  console.log(USER_DB)
+  console.log(USER_DB.get())
 }

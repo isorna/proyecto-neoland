@@ -7,7 +7,7 @@ export function translateString(string) {
 // Patrón: Command Pattern
 class Translator {
   toEnglish(string) {
-    return `${string}`
+    return `EN: ${string}`
   }
   // toFrench...
 }
