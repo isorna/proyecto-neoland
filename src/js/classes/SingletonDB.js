@@ -2,7 +2,7 @@
 export class SingletonDB {
   dataBase
   constructor(){
-    console.log('construyo el singleton de la base de datos')
+    // console.log('construyo el singleton de la base de datos')
   }
   /**
    * Returns the dataBase array.

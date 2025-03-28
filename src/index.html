@@ -13,8 +13,20 @@
 <body>
   <header>
     <h1>Lista de la compra</h1>
+    <nav>
+      <menu>
+        <li id="userLink" class="hidden"><a href="/user.html">Datos de usuario</a></li>
+        <li>
+          <form id="logOutForm" class="hidden">
+            <button type="submit">Cerrar sesión</button">
+          </form>
+        </li>
+      </menu>
+    </nav>
   </header>
   <main>
+    <!-- TODO: LOGOUT -->
+    <!-- TODO: BORRAR USUARIO PROPIO -->
     <form id="signInForm">
       <h1>Registro</h1>
       <input type="text" id="name" placeholder="Nombre de usuario" required>
@@ -28,6 +40,7 @@
       <button type="submit">Log In</button>
     </form>
     <p id="signInMessageOk" class="hidden">Usuario registrado correctamente</p>
+    <p id="signInMessageKo" class="hidden">El usuario ya existe</p>
     <p id="loginInMessageOk" class="hidden">Usuario identificado correctamente</p>
     <p id="loginInMessageKo" class="hidden">El usuario no existe</p>
   </main>

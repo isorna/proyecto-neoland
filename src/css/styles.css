@@ -18,6 +18,10 @@ html {
     background-color: white;
     min-height: 100vh;
 
+    &.loading {
+      opacity: .5;
+    }
+
     header,
     main {
       background-color: #cccccc;

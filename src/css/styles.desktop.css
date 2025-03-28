@@ -20,6 +20,10 @@ body {
     margin: 0 auto;
   }
 
+  button {
+    cursor: pointer;
+  }
+
   main {
     min-height: 80vh;
   }
@@ -32,16 +36,12 @@ body {
     h1 {
       width: 100%;
     }
-    .menu-principal {
+    menu {
       display: flex;
-      justify-content: center;
-      align-items: stretch;
-      height: 90px;
+      justify-content: space-between;
 
       li {
         display: flex;
-        justify-content: center;
-        width: calc(100% / 5);
 
         a {
           display: inline-flex;
@@ -51,8 +51,11 @@ body {
           text-align: center;
           align-items: center;
         }
-      }
 
+        form {
+          display: flex;
+        }
+      }
     }
   }
   main {
