@@ -1,4 +1,5 @@
 // Patrón: Singleton
+// CONTROLLER
 export class SingletonDB {
   dataBase
   constructor(){
@@ -19,5 +20,8 @@ export class SingletonDB {
   }
   push() {
     this.dataBase.push(...arguments)
+  }
+  deleteByEmail(email) {
+    this.dataBase.splice(this.dataBase.findIndex((user) => user.email === email), 1)
   }
 }

@@ -1,17 +1,23 @@
-import { User } from "./classes/User.js"
-import { SingletonDB } from './classes/SingletonDB.js'
+// IMPORTACION ESTATICA
+// import { User } from "./classes/User.js"
+import { User } from 'classes/User'
+import { SingletonDB } from 'classes/SingletonDB'
+import './lib/logger.js'// IMPORTACION DIRECTA
 // import { ArticleFactory, ARTICLE_TYPES } from './classes/Article.js'
 
 // Patrón: Observer
 window.addEventListener('DOMContentLoaded', onDOMContentLoaded)
 
 // Patrón Singleton
-const USER_DB = new SingletonDB()
+const USER_DB = new SingletonDB()// CONTROLLER
 // const ARTICLES_DB = new SingletonDB()
+const POKEMON_DB = new SingletonDB()
 
 // const USER_DB = []
 // Equivalencia:
 // const USER_DB = new Array()
+
+// VISTA
 
 /**
  * Evento que se lanza cuando el contenido de la página ha sido cargado en memoria
@@ -31,6 +37,15 @@ function onDOMContentLoaded() {
   // console.log(factoriaObjetos.createArticle(ARTICLE_TYPES.COMPLEX, 'carne', 3, 4))
   // console.log(factoriaObjetos.createArticle(ARTICLE_TYPES.COMPLEX, 'fruta'))
   // console.log(factoriaObjetos.createTranslatedArticle(ARTICLE_TYPES.COMPLEX, 'fruta'))
+
+  // IMPORTACION ASINCRONA
+  import('../api/pokedex.json', { with: { type: "json" } }).then((codigoModulo) => {
+    console.log('libreria importada asincronamente', codigoModulo.default.length)
+    if (POKEMON_DB.get() === undefined) {
+      console.log('inicializo el singleton de la base de datos de pokemons')
+    }
+    POKEMON_DB.push(...codigoModulo.default)
+  }).catch((error) => console.error(error))
 
   // Patrón: Observer
   signInForm?.addEventListener('submit', onSignIn)
@@ -120,7 +135,7 @@ function onSignOut(event) {
   event.preventDefault()
   // Borro el usuario, si está identificado
   if (sessionStorage.getItem('user') && confirm('¿Estás seguro de borrar tu usuario?')) {
-    USER_DB.get().splice(USER_DB.get().findIndex((user) => user.email === JSON.parse(sessionStorage.getItem('user')).email), 1)
+    USER_DB.deleteByEmail(JSON.parse(sessionStorage.getItem('user')).email)
     updateUserDB()
     // Eliminar la sesión del usuario
     sessionStorage.removeItem('user')
