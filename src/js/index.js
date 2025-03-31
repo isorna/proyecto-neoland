@@ -2,6 +2,7 @@
 // import { User } from "./classes/User.js"
 import { User } from 'classes/User'
 import { SingletonDB } from 'classes/SingletonDB'
+// import { simpleFetch } from './lib/simpleFetch.js'
 import './lib/logger.js'// IMPORTACION DIRECTA
 // import { ArticleFactory, ARTICLE_TYPES } from './classes/Article.js'
 
