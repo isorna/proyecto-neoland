@@ -8,6 +8,15 @@
   <link rel="stylesheet" href="/css/styles.mobile.css" media="screen and (max-width: 768px)"/>
   <link rel="stylesheet" href="/css/styles.desktop.css" media="screen and (min-width: 769px)"/>
   <title>Lista de la compra</title>
+  <!-- IMPORTMAP siempre ANTES de los JS -->
+  <script type="importmap">
+    {
+      "imports": {
+        "classes/User": "./js/classes/User.js",
+        "classes/SingletonDB": "./js/classes/SingletonDB.js"
+      }
+    }
+  </script>
   <script type="module" src="./js/index.js" defer></script>
 </head>
 <body>
