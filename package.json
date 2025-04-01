@@ -1,3 +1,32 @@
 {
-  "type": "module"
+  "name": "proyecto-neoland",
+  "version": "1.0.0",
+  "type": "module",
+  "node": ">=20.0.0",
+  "description": "proyecto de prácticas para el bootcamp de neoland",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "jsdoc": "^4.0.4",
+    "typescript": "^5.8.2"
+  },
+  "scripts": {
+    "test": "test",
+    "docs": "jsdoc ./src -r"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/isorna/proyecto-neoland.git"
+  },
+  "keywords": [
+    "js",
+    "css",
+    "html"
+  ],
+  "author": "@isorna",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/isorna/proyecto-neoland/issues"
+  },
+  "homepage": "https://github.com/isorna/proyecto-neoland#readme"
 }

@@ -1,3 +1,4 @@
+// @ts-check
 // IMPORTACION ESTATICA
 // import { User } from "./classes/User.js"
 import { User } from 'classes/User'
@@ -19,7 +20,6 @@ const POKEMON_DB = new SingletonDB()
 // const USER_DB = new Array()
 
 // VISTA
-
 /**
  * Evento que se lanza cuando el contenido de la página ha sido cargado en memoria
  * y se puede acceder a él.
