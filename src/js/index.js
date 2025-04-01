@@ -66,8 +66,8 @@ function onDOMContentLoaded() {
  */
 function onLogIn(event) {
   event.preventDefault()
-  let name = document.getElementById('userName').value
-  let email = document.getElementById('userEmail').value
+  let name = document.getElementById('userName')?.value
+  let email = document.getElementById('userEmail')?.value
 
   // Buscar en la BBDD si existe el usuario
   let userExists = USER_DB.get().findIndex((user) => user.name === name && user.email === email)
@@ -79,7 +79,7 @@ function onLogIn(event) {
     document.body.classList.add('loading')
     // Actualizo el interfaz
     setTimeout(() => {
-      document.getElementById('userLink').classList.remove('hidden')
+      document.getElementById('userLink')?.classList.remove('hidden')
       document.getElementById('loginInMessageOk').classList.remove('hidden')
       document.getElementById('loginInMessageKo').classList.add('hidden')
       document.getElementById('signInForm').classList.add('hidden')

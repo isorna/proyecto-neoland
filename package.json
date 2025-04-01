@@ -5,10 +5,18 @@
   "node": ">=20.0.0",
   "description": "proyecto de prácticas para el bootcamp de neoland",
   "main": "server/index.js",
-  "dependencies": {},
   "devDependencies": {
+    "@commitlint/cli": "^19.8.0",
+    "@commitlint/config-conventional": "^19.8.0",
+    "@eslint/js": "^9.23.0",
+    "commitlint": "^19.8.0",
+    "eslint": "^9.23.0",
+    "globals": "^16.0.0",
     "jsdoc": "^4.0.4",
-    "typescript": "^5.8.2"
+    "stylelint": "^16.17.0",
+    "stylelint-config-standard": "^37.0.0",
+    "typescript": "^5.8.2",
+    "typescript-eslint": "^8.29.0"
   },
   "scripts": {
     "test": "test",

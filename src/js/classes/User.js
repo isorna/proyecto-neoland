@@ -1,6 +1,13 @@
+// @ts-check
 // MODEL
 export class User {
+  /**
+   * @type {string}
+   */
   name
+  /**
+   * @type {string}
+   */
   email
   /**
    * @param {string} name
@@ -14,8 +21,6 @@ export class User {
 
 // @logUser // Patrón decorador no-estándar en JS
 export class SuperUser extends User {// HERENCIA
-  name
-  email
   /**
    * @param {string} name
    * @param {string} email
@@ -27,6 +32,11 @@ export class SuperUser extends User {// HERENCIA
 }
 
 // Patrón: Decorator
+/**
+ *
+ * @param {any} userInstance
+ * @returns
+ */
 export function logUser(userInstance) {
   userInstance.log = function() {
     console.info('LOG', this.name)

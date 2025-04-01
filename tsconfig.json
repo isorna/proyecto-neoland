@@ -2,6 +2,7 @@
   "include": ["./src/js/**/*.js"],
   "exclude": ["./**/_hidden/**/*"],
   "compilerOptions": {
+    "resolveJsonModule": true,
     "paths": {
       "classes/*": ["./src/js/classes/*.js"],
       "decorators/*": ["./src/js/decorators/*.js"],
