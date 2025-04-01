@@ -56,6 +56,12 @@ class CalculadoraCientifica extends Calculadora {
     super()
   }
 
+  /**
+   * Calcula la potencia de a elevado a b
+   * @param {number} a base
+   * @param {number} b exponente
+   * @returns {number} a elevado a b
+   */
   potencia(a, b) {
     return a ** b
   }

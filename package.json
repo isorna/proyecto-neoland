@@ -4,7 +4,7 @@
   "type": "module",
   "node": ">=20.0.0",
   "description": "proyecto de prácticas para el bootcamp de neoland",
-  "main": "index.js",
+  "main": "server/index.js",
   "dependencies": {},
   "devDependencies": {
     "jsdoc": "^4.0.4",
