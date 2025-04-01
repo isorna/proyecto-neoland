@@ -49,7 +49,9 @@ function onDOMContentLoaded() {
   }).catch((error) => console.error(error))
 
   // Patrón: Observer
-  signInForm?.addEventListener('submit', onSignIn)
+  if (signInForm !== null){
+    signInForm.addEventListener('submit', onSignIn)
+  }
   logInForm?.addEventListener('submit', onLogIn)
   logOutForm?.addEventListener('submit', onLogOut)
   signOutForm?.addEventListener('submit', onSignOut)
@@ -66,8 +68,10 @@ function onDOMContentLoaded() {
  */
 function onLogIn(event) {
   event.preventDefault()
-  let name = document.getElementById('userName')?.value
-  let email = document.getElementById('userEmail')?.value
+  let nameElement = document.getElementById('userName')
+  let name = /** @type {HTMLInputElement} */(nameElement)?.value
+  let emailElement = document.getElementById('userEmail')
+  let email = /** @type {HTMLInputElement} */(emailElement)?.value
 
   // Buscar en la BBDD si existe el usuario
   let userExists = USER_DB.get().findIndex((user) => user.name === name && user.email === email)
@@ -80,17 +84,17 @@ function onLogIn(event) {
     // Actualizo el interfaz
     setTimeout(() => {
       document.getElementById('userLink')?.classList.remove('hidden')
-      document.getElementById('loginInMessageOk').classList.remove('hidden')
-      document.getElementById('loginInMessageKo').classList.add('hidden')
-      document.getElementById('signInForm').classList.add('hidden')
-      document.getElementById('logInForm').classList.add('hidden')
-      document.getElementById('logOutForm').classList.remove('hidden')
-      document.getElementById('loginInMessageOk').classList.add('hidden')
+      document.getElementById('loginInMessageOk')?.classList.remove('hidden')
+      document.getElementById('loginInMessageKo')?.classList.add('hidden')
+      document.getElementById('signInForm')?.classList.add('hidden')
+      document.getElementById('logInForm')?.classList.add('hidden')
+      document.getElementById('logOutForm')?.classList.remove('hidden')
+      document.getElementById('loginInMessageOk')?.classList.add('hidden')
       document.body.classList.remove('loading')
     }, 1000)
   } else {
-    document.getElementById('loginInMessageKo').classList.remove('hidden')
-    document.getElementById('loginInMessageOk').classList.add('hidden')
+    document.getElementById('loginInMessageKo')?.classList.remove('hidden')
+    document.getElementById('loginInMessageOk')?.classList.add('hidden')
   }
 }
 
@@ -136,7 +140,13 @@ function onSignOut(event) {
   event.preventDefault()
   // Borro el usuario, si está identificado
   if (sessionStorage.getItem('user') && confirm('¿Estás seguro de borrar tu usuario?')) {
-    USER_DB.deleteByEmail(JSON.parse(sessionStorage.getItem('user')).email)
+    let localStoredUser = sessionStorage.getItem('user')
+    // Si no existe la clave 'user' en la sesión, localStoredUser es null
+    if (localStoredUser === null) {
+      // Asignamos una cadena de texto vacía, para no romper JSON.parse()
+      localStoredUser = ''
+    }
+    USER_DB.deleteByEmail(JSON.parse(localStoredUser).email)
     updateUserDB()
     // Eliminar la sesión del usuario
     sessionStorage.removeItem('user')
@@ -154,8 +164,10 @@ function onSignOut(event) {
  */
 function onSignIn(event) {
   event.preventDefault()
-  let name = document.getElementById('name').value
-  let email = document.getElementById('email').value
+  let nameElement = document.getElementById('name')
+  let name = /** @type {HTMLInputElement} */(nameElement)?.value
+  let emailElement = document.getElementById('email')
+  let email = /** @type {HTMLInputElement} */(emailElement)?.value
   let newUser = new User(name, email)
 
   // Patron decorador:
@@ -164,18 +176,18 @@ function onSignIn(event) {
 
   // Comprobamos si el usuario ya existe (por ejemplo por el email)
   if (USER_DB.get().findIndex((user) => user.email === email) >= 0) {
-    document.getElementById('signInMessageKo').classList.remove('hidden')
+    document.getElementById('signInMessageKo')?.classList.remove('hidden')
     return
   }
-  document.getElementById('signInMessageKo').classList.add('hidden')
+  document.getElementById('signInMessageKo')?.classList.add('hidden')
 
   USER_DB.push(newUser)
   updateUserDB()
 
   // Informo al usuario del resultado de la operación
-  document.getElementById('signInMessageOk').classList.remove('hidden')
+  document.getElementById('signInMessageOk')?.classList.remove('hidden')
   setTimeout(() => {
-    document.getElementById('signInMessageOk').classList.add('hidden')
+    document.getElementById('signInMessageOk')?.classList.add('hidden')
   }, 1000)
 }
 
@@ -198,9 +210,15 @@ function readUserDB() {
   let savedUsers = []
 
   if (localStorage.getItem('USER_DB')) {
-    savedUsers = JSON.parse(localStorage.getItem('USER_DB'))
+    let localStoredUSER_DB = localStorage.getItem('USER_DB')
+    // Si no existe la clave 'user' en local store, localStoredUSER_DB es null
+    if (localStoredUSER_DB === null) {
+      // Asignamos una cadena de texto vacía, para no romper JSON.parse()
+      localStoredUSER_DB = ''
+    }
+    savedUsers = JSON.parse(localStoredUSER_DB)
       // Usamos la clase User también para montar la BBDD al cargar la página
-      .map((user) => new User(user.name, user.email))
+      .map((/** @type {User} */user) => new User(user.name, user.email))
   }
   if (USER_DB.get() === undefined) {
     console.log('inicializo el singleton de la base de datos')

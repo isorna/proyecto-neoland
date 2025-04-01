@@ -21,6 +21,10 @@ export class SingletonDB {
   push() {
     this.dataBase.push(...arguments)
   }
+  /**
+   * Deletes the user in the database with the given email.
+   * @param {string} email
+   */
   deleteByEmail(email) {
     this.dataBase.splice(this.dataBase.findIndex((user) => user.email === email), 1)
   }

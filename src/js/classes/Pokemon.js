@@ -12,7 +12,7 @@
 // ]
 
 // Definición de modelos de datos
-class Pokemon {// CLASE
+export class Pokemon {// CLASE
   /**
    * Constructor de la clase Pokemon // MODELO
    * @param {string} name - nombre del Pokémon
