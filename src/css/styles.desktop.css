@@ -24,18 +24,16 @@ body {
     cursor: pointer;
   }
 
-  main {
-    min-height: 80vh;
-  }
-
   header {
     display: flex;
     flex-direction: column;
     row-gap: 10px;
+
     nav,
     h1 {
       width: 100%;
     }
+
     menu {
       display: flex;
       justify-content: space-between;
@@ -58,15 +56,19 @@ body {
       }
     }
   }
+
   main {
+    min-height: 80vh;
     display: flex;
     flex-direction: column;
+
     form {
       display: flex;
-      column-gap: 10px;
-      row-gap: 20px;
+      gap: 10px 20px;
+
       /* Uso un margen negativo para salirme del main */
       margin: 0 -112px;
+
       /* compenso con un padding el margen negativo, y devuelvo a su sitio la capa */
       padding: 20px 112px;
 
