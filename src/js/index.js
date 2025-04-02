@@ -7,6 +7,8 @@ import { SingletonDB } from 'classes/SingletonDB'
 import './lib/logger.js'// IMPORTACION DIRECTA
 // import { ArticleFactory, ARTICLE_TYPES } from './classes/Article.js'
 
+/** @import {Dieta} from "./classes/User.js" */
+
 // Patrón: Observer
 window.addEventListener('DOMContentLoaded', onDOMContentLoaded)
 
@@ -168,7 +170,19 @@ function onSignIn(event) {
   let name = /** @type {HTMLInputElement} */(nameElement)?.value
   let emailElement = document.getElementById('email')
   let email = /** @type {HTMLInputElement} */(emailElement)?.value
-  let newUser = new User(name, email)
+  /** @type {Dieta} */
+  let dietaUsuario = {
+    calorias: 2000,
+    semana: {
+      lunes: [],
+      martes: [],
+      miercoles: [],
+      jueves: [],
+      viernes: [],
+    },
+  }
+  let newUser = new User(name, email, 18, dietaUsuario)
+  // let newUser = new User(name, email)
 
   // Patron decorador:
   // logUser(newUser)

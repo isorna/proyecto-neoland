@@ -1,4 +1,16 @@
 // @ts-check
+
+/**
+ * @typedef {Object} Dieta
+ * @property {number} calorias
+ * @property {Object} semana
+ * @property {String[]} semana.lunes por ejemplo ['leche', 'carne', 'fruta']
+ * @property {String[]} semana.martes
+ * @property {String[]} semana.miercoles
+ * @property {String[]} semana.jueves
+ * @property {String[]} semana.viernes
+ */
+
 // MODEL
 export class User {
   /**
@@ -13,12 +25,14 @@ export class User {
    * @param {string} name
    * @param {string} email
    * @param {number} [edad=18]
+   * @param {Dieta | {}} dieta
    * @param {'user' | 'admin'} [rol='user']
    */
-  constructor(name, email, edad = 18, rol = 'user') {
+  constructor(name, email, edad = 18, dieta = {}, rol = 'user') {
     this.name = name
     this.email = email
     this.edad = edad
+    this.dieta = dieta
     this.rol = rol
   }
 }
