@@ -189,7 +189,14 @@ function onSignIn(event) {
   // newUser.log()
 
   // Comprobamos si el usuario ya existe (por ejemplo por el email)
-  if (USER_DB.get().findIndex((user) => user.email === email) >= 0) {
+  /**
+   * @callback filterUserCallback
+   * @param {User} user
+   * @returns number
+   */
+  /** @type {filterUserCallback} */
+  let findIndexCallback = (user) => user.email === email
+  if (USER_DB.get().findIndex(findIndexCallback) >= 0) {
     document.getElementById('signInMessageKo')?.classList.remove('hidden')
     return
   }
