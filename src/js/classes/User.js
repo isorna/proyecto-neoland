@@ -13,11 +13,13 @@ export class User {
    * @param {string} name
    * @param {string} email
    * @param {number} [edad=18]
+   * @param {'user' | 'admin'} [rol='user']
    */
-  constructor(name, email, edad = 18) {
+  constructor(name, email, edad = 18, rol = 'user') {
     this.name = name
     this.email = email
     this.edad = edad
+    this.rol = rol
   }
 }
 
@@ -29,8 +31,7 @@ export class SuperUser extends User {// HERENCIA
    * @param {number} [edad=18]
    */
   constructor(name, email, edad = 18) {
-    super(name, email, edad)
-    this.role = 'admin'// MIXIN
+    super(name, email, edad, 'admin')
   }
 }
 
