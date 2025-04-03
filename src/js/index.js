@@ -29,7 +29,7 @@ function onDOMContentLoaded() {
   readUserDB()
   checkLoggedIn()
   // DEBUG:
-  console.log(store.getState(), store.user.getById())
+  console.log(store.getState())
 }
 
 /**
@@ -207,5 +207,9 @@ function readUserDB() {
     console.log('inicializo el singleton de la base de datos')
   }
   USER_DB.push(...savedUsers)
+  // Replicamos lo mismo en REDUX
+  savedUsers.forEach((/** @type {User} */newUser) => {
+    store.user.create(newUser)
+  })
   // console.log(USER_DB.get())
 }
