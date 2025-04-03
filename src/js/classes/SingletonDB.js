@@ -8,10 +8,11 @@ export class SingletonDB {
   /**
    * @type {User[] | undefined}
    */
-  dataBase
+  dataBase // Store en REDUX
   constructor(){
     // console.log('construyo el singleton de la base de datos')
   }
+
   /**
    * Returns the dataBase array.
    *
@@ -19,20 +20,21 @@ export class SingletonDB {
    *
    * @returns {User[]} dataBase
    */
-  get() {
+  get() {// Métodos: ACTIONS en REDUX // READ
     if (this.dataBase === undefined) {
       this.dataBase = []
     }
     return this.dataBase
   }
-  push() {
-    this.dataBase?.push(...arguments)
+  push() {// Métodos: ACTIONS en REDUX // CREATE
+    this.dataBase?.push(...arguments)// REDUCER EN REDUX
   }
   /**
    * Deletes the user in the database with the given email.
    * @param {string} email
    */
-  deleteByEmail(email) {
+  deleteByEmail(email) {// Métodos: ACTIONS en REDUX // DELETE
+    // REDUCER EN REDUX
     this.dataBase?.splice(this.dataBase.findIndex((user) => user.email === email), 1)
   }
 }

@@ -1,5 +1,6 @@
 // @ts-check
-/** @import { Article } from '../classes/Article.js' */
+/** @import { Article } from 'classes/Article' */
+/** @import { User } from '../classes/User.js' */
 
 /**
  * @module redux/store
@@ -7,7 +8,8 @@
 
 /**
  * @typedef {Object.<(string), any>} State
- * @property {Array<Article>} articles
+ * @property {Article[] | []} articles
+ * @property {User[] | []} users
  * @property {boolean} isLoading
  * @property {boolean} error
  */
@@ -16,12 +18,12 @@
  */
 export const INITIAL_STATE = {
   articles: [],
-  // users: [],
+  users: [],
   isLoading: false,// Podría usarse para controlar cuando estamos realizando un fetch
   error: false,// Podría usarse para controlar cuando sucede un error
 }
 
-/* *
+/**
  * @typedef {Object} ActionTypeUser
  * @property {string} type
  * @property {User} [user]
@@ -29,9 +31,10 @@ export const INITIAL_STATE = {
 /**
  * @typedef {Object} ActionTypeArticle
  * @property {string} type
- * @property {Article } [article]
+ * @property {Article} [article]
  */
 const ACTION_TYPES = {
+  // CRUD
   // Article
   CREATE_ARTICLE: 'CREATE_ARTICLE',
   READ_LIST: 'READ_LIST',
@@ -39,6 +42,11 @@ const ACTION_TYPES = {
   DELETE_ARTICLE: 'DELETE_ARTICLE',
   DELETE_ALL_ARTICLES: 'DELETE_ALL_ARTICLES',
   // User
+  CREATE_USER: 'CREATE_USER',
+  // READ_LIST: 'READ_LIST',// TODO arreglar este problema
+  UPDATE_USER: 'UPDATE_USER',
+  DELETE_USER: 'DELETE_USER',
+  DELETE_ALL_USERS: 'DELETE_ALL_USERS',
   // ...
 }
 
@@ -46,13 +54,14 @@ const ACTION_TYPES = {
  * Reducer for the app state.
  *
  * @param {State} state - The current state
- * @param {ActionTypeArticle} action - The action to reduce
+ * @param {ActionTypeArticle | ActionTypeUser} action - The action to reduce
  * @returns {State} The new state
  */
 const appReducer = (state = INITIAL_STATE, action) => {
   const actionWithArticle = /** @type {ActionTypeArticle} */(action)
-  // const actionWithUser = /** @type {ActionTypeUser} */(action)
+  const actionWithUser = /** @type {ActionTypeUser} */(action)
   switch (action.type) {
+    // Articles
     case ACTION_TYPES.CREATE_ARTICLE:
       return {
         ...state,
@@ -83,6 +92,15 @@ const appReducer = (state = INITIAL_STATE, action) => {
         ...state,
         articles: []
       };
+    // User
+    case ACTION_TYPES.CREATE_USER:
+      return {
+        ...state,
+        users: [
+          ...state.users,
+          actionWithUser.user// Equivalente a USER_DB.push(newUser)
+        ]
+      };
     default:
       return {...state};
   }
@@ -97,10 +115,12 @@ const appReducer = (state = INITIAL_STATE, action) => {
  * @property {function} getById
  * @property {function} getAll
  * @property {function} deleteAll
+ * @property {function} [getByEmail]
  */
 /**
  * @typedef {Object} Store
  * @property {PublicMethods} article
+ * @property {PublicMethods} user
  * @property {function} getState
  */
 /**
@@ -115,7 +135,7 @@ const createStore = (reducer) => {
   // Private methods
   /**
    *
-   * @param {ActionTypeArticle} action
+   * @param {ActionTypeArticle | ActionTypeUser} action
    * @param {function | undefined} [onEventDispatched]
    */
   const _dispatch = (action, onEventDispatched) => {
@@ -171,6 +191,13 @@ const createStore = (reducer) => {
    */
   const createArticle = (article, onEventDispatched) => _dispatch({ type: ACTION_TYPES.CREATE_ARTICLE, article }, onEventDispatched);
   /**
+   * Creates a new User inside the store
+   * @param {User} user
+   * @param {function | undefined} [onEventDispatched]
+   * @returns void
+   */
+  const createUser = (user, onEventDispatched) => _dispatch({ type: ACTION_TYPES.CREATE_USER, user }, onEventDispatched);
+  /**
    * Reads the list of articles
    * @param {function | undefined} [onEventDispatched]
    * @returns void
@@ -207,6 +234,20 @@ const createStore = (reducer) => {
   const getArticleById = (id) => { return currentState.articles.find((/** @type {Article} */article) => article._id === id) };
 
   /**
+   * Returns the user with the specified id
+   * @param {string} id
+   * @returns {User | undefined}
+   */
+  const getUserById = (id) => { return currentState.users.find((/** @type {User} */user) => user._id === id) };
+
+  /**
+   * Returns the user with the specified email
+   * @param {string} email
+   * @returns {User | undefined}
+   */
+  const getUserByEmail = (email) => { return currentState.users.find((/** @type {User} */user) => user.email === email) };
+
+  /**
    * Returns all the articles
    * @returns {Array<Article>}
    */
@@ -230,12 +271,22 @@ const createStore = (reducer) => {
     getAll: getAllArticles,
     deleteAll: deleteAllArticles
   }
-  //const user = {}
+  /** @type {PublicMethods} */
+  const user = {
+    create: createUser,
+    read: function () {console.log('read')},
+    update: function () {console.log('update')},
+    delete: function () {console.log('delete')},
+    getById: getUserById,
+    getByEmail: getUserByEmail,
+    getAll: function () {console.log('getAll')},
+    deleteAll: function () {console.log('deleteAll')}
+  }
 
   return {
     // Actions
     article,
-    // user,
+    user,
     // Public methods
     getState
   }

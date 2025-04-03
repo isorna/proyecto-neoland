@@ -10,7 +10,9 @@ export class Article {
    * @param {number} [price=0] - The price of the article.
    */
   constructor(name, qty = 1, price = 0) {
-    this._id = ''// TODO: Generar id
+    const timestamp = new Date()
+    // Generar id aleatorio (hasta que tengamos el de la BBDD)
+    this._id = String(timestamp.getTime())
     this.name = name
     this.qty = qty
     this.price = price

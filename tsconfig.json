@@ -7,6 +7,8 @@
       "classes/*": ["./src/js/classes/*.js"],
       "decorators/*": ["./src/js/decorators/*.js"],
       "utils/*": ["./src/js/utils/*.js"],
+      "store/*": ["./src/js/store/*.js"],
+      "lib/*": ["./src/js/lib/*.js"]
     },
     /* Visit https://aka.ms/tsconfig to read more about this file */
 

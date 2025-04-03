@@ -1,10 +1,9 @@
 // @ts-check
 import { User } from 'classes/User'
 import { SingletonDB } from 'classes/SingletonDB'
-// import { simpleFetch } from './lib/simpleFetch.js'
-// import { ArticleFactory, ARTICLE_TYPES } from './classes/Article.js'
-
-/** @import {Dieta} from "./classes/User.js" */
+import { store } from 'store/redux'
+// import { simpleFetch } from 'lib/simpleFetch'
+// import { ArticleFactory, ARTICLE_TYPES } from 'classes/Article'
 
 window.addEventListener('DOMContentLoaded', onDOMContentLoaded)
 
@@ -29,6 +28,8 @@ function onDOMContentLoaded() {
   signOutForm?.addEventListener('submit', onSignOut)
   readUserDB()
   checkLoggedIn()
+  // DEBUG:
+  console.log(store.getState(), store.user.getById())
 }
 
 /**
@@ -140,18 +141,7 @@ function onSignIn(event) {
   let name = /** @type {HTMLInputElement} */(nameElement)?.value
   let emailElement = document.getElementById('email')
   let email = /** @type {HTMLInputElement} */(emailElement)?.value
-  /** @type {Dieta} */
-  let dietaUsuario = {
-    calorias: 2000,
-    semana: {
-      lunes: [],
-      martes: [],
-      miercoles: [],
-      jueves: [],
-      viernes: [],
-    },
-  }
-  let newUser = new User(name, email, 'user', '', '', dietaUsuario)
+  let newUser = new User(name, email, 'user')
 
   // Comprobamos si el usuario ya existe (por ejemplo por el email)
   /**
@@ -161,12 +151,19 @@ function onSignIn(event) {
    */
   /** @type {filterUserCallback} */
   let findIndexCallback = (user) => user.email === email
+  // TODO: usar store.user.getById() para buscar el usuario en la BBDD
+  console.log('busco en la BBDD el email ' + email, store.user.getByEmail?.(email))
+  if (store.user.getByEmail?.(email) !== undefined) {
+    document.getElementById('signInMessageKo')?.classList.remove('hidden')
+    return
+  }
   if (USER_DB.get().findIndex(findIndexCallback) >= 0) {
     document.getElementById('signInMessageKo')?.classList.remove('hidden')
     return
   }
   document.getElementById('signInMessageKo')?.classList.add('hidden')
-
+  // TODO: usar store.user.create() para insertar el usuario en la BBDD
+  store.user.create(newUser)
   USER_DB.push(newUser)
   updateUserDB()
 
