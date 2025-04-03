@@ -21,51 +21,25 @@
 
 // MODEL
 export class User {
-  /**
-   * @type {string}
-   */
+  /**  @type {string} */
   name
-  /**
-   * @type {string}
-   */
+  /** @type {string} */
   email
   /**
    * @param {string} name
    * @param {string} email
-   * @param {number} [edad=18]
-   * @param {Dieta | {}} dieta
    * @param {'user' | 'admin'} [rol='user']
+   * @param {string} [password='']
+   * @param {string} [token='']
+   * @param {Dieta | {}} dieta
    */
-  constructor(name, email, edad = 18, dieta = {}, rol = 'user') {
+  constructor(name, email, rol = 'user', password = '', token = '', dieta = {}) {
+    this._id = ''// TODO: Generar id
     this.name = name
     this.email = email
-    this.edad = edad
-    this.dieta = dieta
     this.rol = rol
+    this.password = password// TODO: Encriptar
+    this.token = token
+    this.dieta = dieta
   }
-}
-
-// @logUser // Patrón decorador no-estándar en JS
-export class SuperUser extends User {// HERENCIA
-  /**
-   * @param {string} name
-   * @param {string} email
-   * @param {number} [edad=18]
-   */
-  constructor(name, email, edad = 18) {
-    super(name, email, edad, 'admin')
-  }
-}
-
-// Patrón: Decorator
-/**
- *
- * @param {any} userInstance
- * @returns
- */
-export function logUser(userInstance) {
-  userInstance.log = function() {
-    console.info('LOG', this.name)
-  }
-  return userInstance
 }

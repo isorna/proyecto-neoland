@@ -1,15 +1,25 @@
 // @ts-check
+// IMPORTACION ESTATICA
+// import { User } from "./classes/User.js"
 import { User } from 'classes/User'
 import { SingletonDB } from 'classes/SingletonDB'
 // import { simpleFetch } from './lib/simpleFetch.js'
+import './lib/logger.js'// IMPORTACION DIRECTA
 // import { ArticleFactory, ARTICLE_TYPES } from './classes/Article.js'
 
 /** @import {Dieta} from "./classes/User.js" */
 
+// Patrón: Observer
 window.addEventListener('DOMContentLoaded', onDOMContentLoaded)
 
 // Patrón Singleton
-const USER_DB = new SingletonDB()
+const USER_DB = new SingletonDB()// CONTROLLER
+// const ARTICLES_DB = new SingletonDB()
+const POKEMON_DB = new SingletonDB()
+
+// const USER_DB = []
+// Equivalencia:
+// const USER_DB = new Array()
 
 // VISTA
 /**
@@ -23,7 +33,27 @@ function onDOMContentLoaded() {
   let logOutForm = document.getElementById('logOutForm')
   let signOutForm = document.getElementById('signOutForm')
 
-  signInForm?.addEventListener('submit', onSignIn)
+  // Patrón Factoría
+  // const factoriaObjetos = new ArticleFactory()
+  // // Creo varios artículos de ejemplo
+  // console.log(factoriaObjetos.createArticle(ARTICLE_TYPES.SIMPLE, 'leche'))
+  // console.log(factoriaObjetos.createArticle(ARTICLE_TYPES.COMPLEX, 'carne', 3, 4))
+  // console.log(factoriaObjetos.createArticle(ARTICLE_TYPES.COMPLEX, 'fruta'))
+  // console.log(factoriaObjetos.createTranslatedArticle(ARTICLE_TYPES.COMPLEX, 'fruta'))
+
+  // IMPORTACION ASINCRONA
+  import('../api/pokedex.json', { with: { type: "json" } }).then((codigoModulo) => {
+    console.log('libreria importada asincronamente', codigoModulo.default.length)
+    if (POKEMON_DB.get() === undefined) {
+      console.log('inicializo el singleton de la base de datos de pokemons')
+    }
+    POKEMON_DB.push(...codigoModulo.default)
+  }).catch((error) => console.error(error))
+
+  // Patrón: Observer
+  if (signInForm !== null){
+    signInForm.addEventListener('submit', onSignIn)
+  }
   logInForm?.addEventListener('submit', onLogIn)
   logOutForm?.addEventListener('submit', onLogOut)
   signOutForm?.addEventListener('submit', onSignOut)
@@ -151,7 +181,12 @@ function onSignIn(event) {
       viernes: [],
     },
   }
-  let newUser = new User(name, email, 'user', '', '', dietaUsuario)
+  let newUser = new User(name, email, '', 'user', '', dietaUsuario)
+  // let newUser = new User(name, email)
+
+  // Patron decorador:
+  // logUser(newUser)
+  // newUser.log()
 
   // Comprobamos si el usuario ya existe (por ejemplo por el email)
   /**
