@@ -1,7 +1,7 @@
 // @ts-check
 import { User } from 'classes/User'
 import { SingletonDB } from 'classes/SingletonDB'
-import { store } from 'store/redux'
+import { store, INITIAL_STATE } from 'store/redux'
 // import { simpleFetch } from 'lib/simpleFetch'
 // import { ArticleFactory, ARTICLE_TYPES } from 'classes/Article'
 
@@ -26,10 +26,10 @@ function onDOMContentLoaded() {
   logInForm?.addEventListener('submit', onLogIn)
   logOutForm?.addEventListener('submit', onLogOut)
   signOutForm?.addEventListener('submit', onSignOut)
-  readUserDB()
+  readUsersFromLocalStorage()
   checkLoggedIn()
   // DEBUG:
-  console.log(store.getState())
+  console.log('CONTENIDO DE REDUX AL CARGAR LA PÁGINA', store.getState())
 }
 
 /**
@@ -164,7 +164,7 @@ function onSignIn(event) {
   document.getElementById('signInMessageKo')?.classList.add('hidden')
   // TODO: usar store.user.create() para insertar el usuario en la BBDD
   store.user.create(newUser)
-  USER_DB.push(newUser)
+  // USER_DB.push(newUser)
   updateUserDB()
 
   // Informo al usuario del resultado de la operación
@@ -178,38 +178,50 @@ function onSignIn(event) {
  * Updates the local storage with the latest state of the USER_DB array.
  */
 function updateUserDB() {
-  localStorage.setItem('USER_DB', JSON.stringify(USER_DB.get()))
+  // localStorage.setItem('USER_DB', JSON.stringify(USER_DB.get()))
+  // Leemos el nodo users almacenado en localstorage REDUX_DB,
+  let localStoredString = localStorage.getItem('REDUX_DB')
+  let localStoredData = JSON.parse(localStoredString || '')
+  // y guardamos lo que tengamos en store.user.getAll()
+  localStoredData.users.push(...store.user.getAll())
+  localStorage.setItem('REDUX_DB', JSON.stringify(localStoredData))
 }
 
 /**
- * Reads the USER_DB array from local storage and updates the global USER_DB
+ * Reads the User's array from local storage and updates the store
  * array with the read data.
  *
- * If no data is found in local storage, the global USER_DB is left unchanged.
+ * If no data is found in local storage, the global store is left unchanged.
  *
  * @returns {void}
  */
-function readUserDB() {
+function readUsersFromLocalStorage() {
   let savedUsers = []
 
-  if (localStorage.getItem('USER_DB')) {
-    let localStoredUSER_DB = localStorage.getItem('USER_DB')
-    // Si no existe la clave 'user' en local store, localStoredUSER_DB es null
-    if (localStoredUSER_DB === null) {
+  if (localStorage.getItem('REDUX_DB')) {
+    let localStoredREDUX_DB = localStorage.getItem('REDUX_DB')
+    // Si no existe la clave 'user' en local store, localStoredREDUX_DB es null
+    if (localStoredREDUX_DB === null) {
       // Asignamos una cadena de texto vacía, para no romper JSON.parse()
-      localStoredUSER_DB = ''
+      localStoredREDUX_DB = ''
     }
-    savedUsers = JSON.parse(localStoredUSER_DB)
+    savedUsers = JSON.parse(localStoredREDUX_DB)
+      ?.users
       // Usamos la clase User también para montar la BBDD al cargar la página
-      .map((/** @type {User} */user) => new User(user.name, user.email))
+      .map((/** @type {User} */user) => new User(user.name, user.email, user.rol, user.password, user.token, user._id))
+  } else {
+    // REDUX_DB no existe en local storage, tenemos que crear el valor por defecto
+    console.log('Iniciamos local storage porque está vacío')
+    localStorage.setItem('REDUX_DB', JSON.stringify(INITIAL_STATE))
   }
-  if (USER_DB.get() === undefined) {
-    console.log('inicializo el singleton de la base de datos')
-  }
-  USER_DB.push(...savedUsers)
+
+  // if (USER_DB.get() === undefined) {
+  //   console.log('inicializo el singleton de la base de datos')
+  // }
+  // USER_DB.push(...savedUsers)
   // Replicamos lo mismo en REDUX
   savedUsers.forEach((/** @type {User} */newUser) => {
-    store.user.create(newUser)
+    store.user.create(newUser, () => {console.log('usuario creado')})
   })
   // console.log(USER_DB.get())
 }

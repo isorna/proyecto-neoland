@@ -249,9 +249,15 @@ const createStore = (reducer) => {
 
   /**
    * Returns all the articles
-   * @returns {Array<Article>}
+   * @returns {Article[]}
    */
   const getAllArticles = () => { return currentState.articles };
+
+  /**
+   * Returns all the users
+   * @returns {User[]}
+   */
+  const getAllUsers = () => { return currentState.users };
 
   // Public methods
   /**
@@ -279,7 +285,7 @@ const createStore = (reducer) => {
     delete: function () {console.log('delete')},
     getById: getUserById,
     getByEmail: getUserByEmail,
-    getAll: function () {console.log('getAll')},
+    getAll: getAllUsers,
     deleteAll: function () {console.log('deleteAll')}
   }
 

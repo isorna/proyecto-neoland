@@ -8,11 +8,16 @@ export class User {
    * @param {'user' | 'admin'} [rol='user']
    * @param {string} [password='']
    * @param {string} [token='']
+   * @param {string} [_id='']
    */
-  constructor(name, email, rol = 'user', password = '', token = '') {
-    const timestamp = new Date()
-    // Generar id aleatorio (hasta que tengamos el de la BBDD)
-    this._id = String(timestamp.getTime())
+  constructor(name, email, rol = 'user', password = '', token = '', _id = '') {
+    if (_id === '') {
+      const timestamp = new Date()
+      // Generar id aleatorio (hasta que tengamos el de la BBDD)
+      this._id = String(timestamp.getTime())
+    } else {
+      this._id = _id
+    }
     this.name = name
     this.email = email
     this.rol = rol
