@@ -160,6 +160,7 @@ const createStore = (reducer) => {
     if (onEventDispatched) {
       // console.log('onEventDispatched', onEventDispatched);
       onEventDispatched();
+      // Versión avanzada de REDUX con reactividad profunda
       // onEventDispatched.call(this, {
       //   type: action.type,
       //   changes: _getDifferences(previousValue, currentValue)

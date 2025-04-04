@@ -1,6 +1,6 @@
 // @ts-check
 import { User } from 'classes/User'
-import { SingletonDB } from 'classes/SingletonDB'
+// import { SingletonDB } from 'classes/SingletonDB'
 import { store, INITIAL_STATE } from 'store/redux'
 // import { simpleFetch } from 'lib/simpleFetch'
 // import { ArticleFactory, ARTICLE_TYPES } from 'classes/Article'
@@ -8,7 +8,7 @@ import { store, INITIAL_STATE } from 'store/redux'
 window.addEventListener('DOMContentLoaded', onDOMContentLoaded)
 
 // Patrón Singleton
-const USER_DB = new SingletonDB()
+// const USER_DB = new SingletonDB()
 
 // VISTA
 /**
@@ -30,6 +30,17 @@ function onDOMContentLoaded() {
   checkLoggedIn()
   // DEBUG:
   console.log('CONTENIDO DE REDUX AL CARGAR LA PÁGINA', store.getState())
+
+  window.addEventListener('stateChanged', onStateChanged)
+}
+
+/**
+ * Handles a state change event from the store
+ * @param {Event} event - The event object associated with the state change
+ * @listens stateChanged
+ */
+function onStateChanged(event) {
+  console.log('onStateChanged', /** @type {CustomEvent} */(event).detail)
 }
 
 /**
@@ -123,7 +134,7 @@ function onSignOut(event) {
     }
     // USER_DB.deleteByEmail(JSON.parse(localStoredUser).email)
     store.user.delete(JSON.parse(localStoredUser))
-    console.log('compruebo que esté borrado el usuario', store.user.getAll())
+    // console.log('compruebo que esté borrado el usuario', store.user.getAll())
     updateUserDB()
     // Eliminar la sesión del usuario
     sessionStorage.removeItem('user')
@@ -156,7 +167,7 @@ function onSignIn(event) {
   /** @type {filterUserCallback} */
   // let findIndexCallback = (user) => user.email === email
   // TODO: usar store.user.getById() para buscar el usuario en la BBDD
-  console.log('busco en la BBDD el email ' + email, store.user.getByEmail?.(email))
+  // console.log('busco en la BBDD el email ' + email, store.user.getByEmail?.(email))
   if (store.user.getByEmail?.(email) !== undefined) {
     document.getElementById('signInMessageKo')?.classList.remove('hidden')
     return
@@ -166,16 +177,17 @@ function onSignIn(event) {
   //   return
   // }
   document.getElementById('signInMessageKo')?.classList.add('hidden')
-  // TODO: usar store.user.create() para insertar el usuario en la BBDD
-  store.user.create(newUser)
-  // USER_DB.push(newUser)
-  updateUserDB()
-
-  // Informo al usuario del resultado de la operación
-  document.getElementById('signInMessageOk')?.classList.remove('hidden')
-  setTimeout(() => {
-    document.getElementById('signInMessageOk')?.classList.add('hidden')
-  }, 1000)
+  // Versión avanzada de REDUX con reactividad profunda
+  // store.user.create(newUser, (/** @type {Object} */eventDetails) => {
+  //   console.log('después de crear un usuario', eventDetails)
+  store.user.create(newUser, () => {
+    updateUserDB()
+    // Informo al usuario del resultado de la operación
+    document.getElementById('signInMessageOk')?.classList.remove('hidden')
+    setTimeout(() => {
+      document.getElementById('signInMessageOk')?.classList.add('hidden')
+    }, 1000)
+  })
 }
 
 /**
