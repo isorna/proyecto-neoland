@@ -47,12 +47,14 @@ function onLogIn(event) {
   let email = /** @type {HTMLInputElement} */(emailElement)?.value
 
   // Buscar en la BBDD si existe el usuario
-  let userExists = USER_DB.get().findIndex((user) => user.name === name && user.email === email)
-
+  // let userExists = USER_DB.get().findIndex((user) => user.name === name && user.email === email)
+  let userExists = store.user.getAll().findIndex((/** @type {User} */user) => user.name === name && user.email === email)
   // Y notificar en consecuencia
   if (userExists >= 0) {
     // Guardamos los datos del usuario en la sesión
-    sessionStorage.setItem('user', JSON.stringify(USER_DB.get()[userExists]))
+    // sessionStorage.setItem('user', JSON.stringify(USER_DB.get()[userExists]))
+    let userFromREDUX = store.user.getByEmail?.(email)
+    sessionStorage.setItem('user', JSON.stringify(userFromREDUX))
     document.body.classList.add('loading')
     // Actualizo el interfaz
     setTimeout(() => {
@@ -119,7 +121,9 @@ function onSignOut(event) {
       // Asignamos una cadena de texto vacía, para no romper JSON.parse()
       localStoredUser = ''
     }
-    USER_DB.deleteByEmail(JSON.parse(localStoredUser).email)
+    // USER_DB.deleteByEmail(JSON.parse(localStoredUser).email)
+    store.user.delete(JSON.parse(localStoredUser))
+    console.log('compruebo que esté borrado el usuario', store.user.getAll())
     updateUserDB()
     // Eliminar la sesión del usuario
     sessionStorage.removeItem('user')
@@ -150,17 +154,17 @@ function onSignIn(event) {
    * @returns number
    */
   /** @type {filterUserCallback} */
-  let findIndexCallback = (user) => user.email === email
+  // let findIndexCallback = (user) => user.email === email
   // TODO: usar store.user.getById() para buscar el usuario en la BBDD
   console.log('busco en la BBDD el email ' + email, store.user.getByEmail?.(email))
   if (store.user.getByEmail?.(email) !== undefined) {
     document.getElementById('signInMessageKo')?.classList.remove('hidden')
     return
   }
-  if (USER_DB.get().findIndex(findIndexCallback) >= 0) {
-    document.getElementById('signInMessageKo')?.classList.remove('hidden')
-    return
-  }
+  // if (USER_DB.get().findIndex(findIndexCallback) >= 0) {
+  //   document.getElementById('signInMessageKo')?.classList.remove('hidden')
+  //   return
+  // }
   document.getElementById('signInMessageKo')?.classList.add('hidden')
   // TODO: usar store.user.create() para insertar el usuario en la BBDD
   store.user.create(newUser)
@@ -183,7 +187,7 @@ function updateUserDB() {
   let localStoredString = localStorage.getItem('REDUX_DB')
   let localStoredData = JSON.parse(localStoredString || '')
   // y guardamos lo que tengamos en store.user.getAll()
-  localStoredData.users.push(...store.user.getAll())
+  localStoredData.users = [...store.user.getAll()]
   localStorage.setItem('REDUX_DB', JSON.stringify(localStoredData))
 }
 

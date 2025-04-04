@@ -101,6 +101,11 @@ const appReducer = (state = INITIAL_STATE, action) => {
           actionWithUser.user// Equivalente a USER_DB.push(newUser)
         ]
       };
+    case ACTION_TYPES.DELETE_USER:
+      return {
+        ...state,
+        users: state.users.filter((/** @type {User} */user) => user._id !== actionWithUser?.user?._id)
+      };
     default:
       return {...state};
   }
@@ -219,6 +224,14 @@ const createStore = (reducer) => {
   const deleteArticle = (article, onEventDispatched) => _dispatch({ type: ACTION_TYPES.DELETE_ARTICLE, article }, onEventDispatched);
 
   /**
+   * Deletes an user
+   * @param {User} user
+   * @param {function | undefined} [onEventDispatched]
+   * @returns void
+   */
+  const deleteUser = (user, onEventDispatched) => _dispatch({ type: ACTION_TYPES.DELETE_USER, user }, onEventDispatched);
+
+  /**
    * Deletes all the articles
    * @param {function | undefined} [onEventDispatched]
    * @returns void
@@ -282,7 +295,7 @@ const createStore = (reducer) => {
     create: createUser,
     read: function () {console.log('read')},
     update: function () {console.log('update')},
-    delete: function () {console.log('delete')},
+    delete: deleteUser,
     getById: getUserById,
     getByEmail: getUserByEmail,
     getAll: getAllUsers,
