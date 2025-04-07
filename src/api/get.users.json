@@ -1,0 +1,18 @@
+[
+  {
+    "_id": "1",
+    "name": "Alvaro",
+    "email": "u1@e.com",
+    "password": "p1",
+    "token": "token1",
+    "role": "admin"
+  },
+  {
+    "_id": "2",
+    "name": "Pedro",
+    "email": "u2@e.com",
+    "password": "p2",
+    "token": "token2",
+    "role": "user"
+  }
+]

@@ -241,3 +241,8 @@ function readUsersFromLocalStorage() {
   })
   // console.log(USER_DB.get())
 }
+
+export function getDataFromLocalStorage() {
+  const defaultValue = JSON.stringify(INITIAL_STATE)
+  return JSON.parse(localStorage.getItem('REDUX_DB') || defaultValue)
+}
