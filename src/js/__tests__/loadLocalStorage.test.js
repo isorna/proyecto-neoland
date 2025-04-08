@@ -4,6 +4,7 @@ import users from '../../api/get.users.json' with { type: 'json' }
 
 describe('Read saved users from local storage', () => {
   beforeEach(() => {
+    // Simulo lo que estaría haciendo en el navegador
     localStorage.setItem('REDUX_DB', JSON.stringify({users: users }))
     let localStoredString = localStorage.getItem('REDUX_DB')
     let localStoredData = JSON.parse(localStoredString || '')
