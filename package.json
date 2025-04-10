@@ -22,6 +22,9 @@
     "typescript-eslint": "^8.29.0"
   },
   "scripts": {
+    "server:express:start": "node --env-file=.env --watch server/server.express.js",
+    "server:statics:start": "node --env-file=.env --watch server/server.statics.js",
+    "server:api:start": "node --env-file=.env --watch server/server.api.js",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watchAll",
     "docs": "jsdoc ./src -r"
