@@ -34,8 +34,7 @@ function getAction(pathname) {
    }
 }
 
-http
-  .createServer(async (request, response) => {
+http.createServer(async (request, response) => {
     const url = new URL(`http://${request.headers.host}${request.url}`);
     const urlParams = Object.fromEntries(url.searchParams);
     const action = getAction(url.pathname);
@@ -54,6 +53,7 @@ http
     // Return on OPTIONS request
     // More info: https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/OPTIONS
     if (request.method === 'OPTIONS') {
+      // Validación de permisos del servidor, antes de dar acceso a la API
       response.end();
       return;
     }
@@ -68,6 +68,7 @@ http
         request.on('end', () => {
           let body = Buffer.concat(chunks)
           let parsedData = qs.parse(body.toString())
+          console.log('datos recibidos desde el front al crear articulo', parsedData)
           crud.create(ARTICLES_URL, parsedData, (data) => {
             // console.log(`server create article ${data.name} creado`, data)
             responseData = data
@@ -129,6 +130,23 @@ http
           response.write(JSON.stringify(responseData));
           response.end();
         });
+        break;
+      case '/create/users':
+        request.on('data', (chunk) => {
+          chunks.push(chunk)
+        })
+        request.on('end', () => {
+          let body = Buffer.concat(chunks)
+          let parsedData = qs.parse(body.toString())
+          console.log('datos recibidos desde el front al crear usuario', parsedData)
+          crud.create(USERS_URL, parsedData, (data) => {
+            console.log(`server create user ${data.name} creado`, data)
+            responseData = data
+
+            response.write(JSON.stringify(responseData));
+            response.end();
+          });
+        })
         break;
       default:
         console.log('no se encontro el endpoint');

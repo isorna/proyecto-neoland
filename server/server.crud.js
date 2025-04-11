@@ -7,7 +7,8 @@ import { filter } from './crud/filter.js';
 
 export const crud = {
   create: (file, data, callback) => create(file, data, callback),
-  read: (file, callback) => read(file, callback),
+  // read: (file, callback) => read(file, callback),
+  read: read,
   update: (file, id, data, callback) => update(file, id, data, callback),
   delete: (file, id, callback) => deleteById(file, id, callback),
   filter: (file, filterParams, callback) => filter(file, filterParams, callback),

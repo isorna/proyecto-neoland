@@ -1,9 +1,13 @@
 // @ts-check
 import { User } from 'classes/User'
-// import { SingletonDB } from 'classes/SingletonDB'
+import { simpleFetch } from 'lib/simpleFetch'
+import { HttpError } from 'classes/HttpError'
 import { store, INITIAL_STATE } from 'store/redux'
-// import { simpleFetch } from 'lib/simpleFetch'
-// import { ArticleFactory, ARTICLE_TYPES } from 'classes/Article'
+/** @import {State} from './store/redux.js' */
+
+// Preparación para cuando trabajemos con express
+const API_PORT = location.port ? `:${1234}` : ''
+const TIMEOUT = 10000
 
 window.addEventListener('DOMContentLoaded', onDOMContentLoaded)
 
@@ -150,44 +154,41 @@ function onSignOut(event) {
  *
  * @param {Event} event - The event object associated with the form submission.
  */
-function onSignIn(event) {
+async function onSignIn(event) {
   event.preventDefault()
   let nameElement = document.getElementById('name')
   let name = /** @type {HTMLInputElement} */(nameElement)?.value
   let emailElement = document.getElementById('email')
   let email = /** @type {HTMLInputElement} */(emailElement)?.value
   let newUser = new User(name, email, 'user')
+  // Transformación de User a URLSearchParams para el fetch
+  const payload = new URLSearchParams(/** @type {any} */(newUser))
+  // Para cuando usemos express:
+  // const payload = JSON.stringify(newUser)
 
   // Comprobamos si el usuario ya existe (por ejemplo por el email)
-  /**
-   * @callback filterUserCallback
-   * @param {User} user
-   * @returns number
-   */
-  /** @type {filterUserCallback} */
-  // let findIndexCallback = (user) => user.email === email
-  // TODO: usar store.user.getById() para buscar el usuario en la BBDD
-  // console.log('busco en la BBDD el email ' + email, store.user.getByEmail?.(email))
   if (store.user.getByEmail?.(email) !== undefined) {
     document.getElementById('signInMessageKo')?.classList.remove('hidden')
     return
   }
-  // if (USER_DB.get().findIndex(findIndexCallback) >= 0) {
-  //   document.getElementById('signInMessageKo')?.classList.remove('hidden')
-  //   return
-  // }
   document.getElementById('signInMessageKo')?.classList.add('hidden')
-  // Versión avanzada de REDUX con reactividad profunda
-  // store.user.create(newUser, (/** @type {Object} */eventDetails) => {
-  //   console.log('después de crear un usuario', eventDetails)
-  store.user.create(newUser, () => {
+  // Sustituir por llamada fetch al servidor de apis
+  // Enviar el fetch a la API, crear nuevo usuario
+  const apiData = await getAPIData(`${location.protocol}//${location.hostname}${API_PORT}/create/users`, 'POST', payload)
+  if (!apiData) {
+    // Show error
+    alert('Error al crear user')
+    console.error('Error al crear usuario', apiData)
+    return
+  }
+  // store.user.create(newUser, () => {
     updateUserDB()
     // Informo al usuario del resultado de la operación
     document.getElementById('signInMessageOk')?.classList.remove('hidden')
     setTimeout(() => {
       document.getElementById('signInMessageOk')?.classList.add('hidden')
     }, 1000)
-  })
+  // })
 }
 
 /**
@@ -242,7 +243,83 @@ function readUsersFromLocalStorage() {
   // console.log(USER_DB.get())
 }
 
+/**
+ * Checks if there is a user logged in by verifying the presence of a token
+ * in the local storage.
+ *
+ * @returns {boolean} True if the user is logged in, false otherwise.
+ */
 export function getDataFromLocalStorage() {
   const defaultValue = JSON.stringify(INITIAL_STATE)
   return JSON.parse(localStorage.getItem('REDUX_DB') || defaultValue)
+}
+
+/**
+ * Retrieves the shopping list data from session storage.
+ *
+ * @returns {State} Saved state.
+ * If no data is found, returns an empty State object.
+ */
+function getDataFromSessionStorage() {
+  const defaultValue = JSON.stringify(INITIAL_STATE)
+  return JSON.parse(sessionStorage.getItem('REDUX_DB') || defaultValue)
+}
+
+
+/**
+ * Get data from API
+ * @param {string} apiURL
+ * @param {string} method
+ * @param {any} [data]
+ * @returns {Promise<Array<User>>}
+ */
+export async function getAPIData(apiURL, method = 'GET', data) {
+  let apiData
+
+  try {
+    let headers = new Headers()
+    headers.append('Content-Type', 'application/json')
+    headers.append('Access-Control-Allow-Origin', '*')
+    if (data) {
+      headers.append('Content-Length', String(JSON.stringify(data).length))
+    }
+    // Añadimos la cabecera Authorization si el usuario esta logueado
+    if (isUserLoggedIn()) {
+      const userData = getDataFromSessionStorage()
+      headers.append('Authorization', `Bearer ${userData?.user?.token}`)
+    }
+    apiData = await simpleFetch(apiURL, {
+      // Si la petición tarda demasiado, la abortamos
+      signal: AbortSignal.timeout(TIMEOUT),
+      method: method,
+      body: data ?? undefined,
+      headers: headers
+    });
+  } catch (/** @type {any | HttpError} */err) {
+    // En caso de error, controlamos según el tipo de error
+    if (err.name === 'AbortError') {
+      console.error('Fetch abortado');
+    }
+    if (err instanceof HttpError) {
+      if (err.response.status === 404) {
+        console.error('Not found');
+      }
+      if (err.response.status === 500) {
+        console.error('Internal server error');
+      }
+    }
+  }
+
+  return apiData
+}
+
+/**
+ * Checks if there is a user logged in by verifying the presence of a token
+ * in the local storage.
+ *
+ * @returns {boolean} True if the user is logged in, false otherwise.
+ */
+function isUserLoggedIn() {
+  const userData = getDataFromSessionStorage()
+  return userData?.user?.token
 }
