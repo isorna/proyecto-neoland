@@ -185,6 +185,7 @@ async function onSignIn(event) {
     console.error('Error al crear usuario', apiData)
     return
   }
+  console.log('Respuesta del servidor de APIs', apiData)
   // store.user.create(newUser, () => {
     updateUserDB()
     // Informo al usuario del resultado de la operación
