@@ -4,6 +4,7 @@ import { simpleFetch } from 'lib/simpleFetch'
 import { HttpError } from 'classes/HttpError'
 import { store, INITIAL_STATE } from 'store/redux'
 /** @import {State} from './store/redux.js' */
+/** @import {Article} from './classes/Article.js' */
 
 // Preparación para cuando trabajemos con express
 const API_PORT = location.port ? `:${1234}` : ''
@@ -176,8 +177,11 @@ async function onSignIn(event) {
   // Enviar el fetch a la API, crear nuevo usuario
   const apiData = await getAPIData(`${location.protocol}//${location.hostname}${API_PORT}/create/users`, 'POST', payload)
   if (!apiData) {
-    // Show error
-    alert('Error al crear user')
+    // Informo al usuario del resultado de la operación
+    document.getElementById('signInMessageKo')?.classList.remove('hidden')
+    setTimeout(() => {
+      document.getElementById('signInMessageKo')?.classList.add('hidden')
+    }, 1000)
     console.error('Error al crear usuario', apiData)
     return
   }
@@ -271,7 +275,7 @@ function getDataFromSessionStorage() {
  * @param {string} apiURL
  * @param {string} method
  * @param {any} [data]
- * @returns {Promise<Array<User>>}
+ * @returns {Promise<Array<User | Article>>}
  */
 export async function getAPIData(apiURL, method = 'GET', data) {
   let apiData
