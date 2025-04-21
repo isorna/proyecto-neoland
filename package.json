@@ -24,6 +24,7 @@
     "typescript-eslint": "^8.29.0"
   },
   "scripts": {
+    "server:sencillo": "node --env-file=.env --watch server/server.simple.express.js",
     "server:basic:start": "node --env-file=.env --watch server/server.basic.js",
     "server:statics:start": "node --env-file=.env --watch server/server.statics.js",
     "server:express:start": "node --env-file=.env --watch server/server.express.js",
