@@ -7,7 +7,7 @@ import { store, INITIAL_STATE } from 'store/redux'
 /** @import {Article} from './classes/Article.js' */
 
 // Preparación para cuando trabajemos con express
-const API_PORT = location.port ? `:${1234}` : ''
+const API_PORT = location.port ? `:${1337}` : ''
 const TIMEOUT = 10000
 
 window.addEventListener('DOMContentLoaded', onDOMContentLoaded)
@@ -163,9 +163,9 @@ async function onSignIn(event) {
   let email = /** @type {HTMLInputElement} */(emailElement)?.value
   let newUser = new User(name, email, 'user')
   // Transformación de User a URLSearchParams para el fetch
-  const payload = new URLSearchParams(/** @type {any} */(newUser))
+  // const payload = new URLSearchParams(/** @type {any} */(newUser))
   // Para cuando usemos express:
-  // const payload = JSON.stringify(newUser)
+  const payload = JSON.stringify(newUser)
 
   // Comprobamos si el usuario ya existe (por ejemplo por el email)
   if (store.user.getByEmail?.(email) !== undefined) {
