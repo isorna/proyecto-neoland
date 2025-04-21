@@ -9,14 +9,16 @@ const USERS_URL = './server/BBDD/users.json'
 // Static server
 app.use(express.static('src'));
 // for parsing application/json
-app.use(bodyParser.json())
+app.use(bodyParser.json());
+// for parsing application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true }))
 
 // Router de la aplicación
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
+// app.get('/', (req, res) => {
+//   res.send('Hello World!');
+// });
 
-
+// API ENDPOINTS
 app.get('/read/users', (req, res) => {
   crud.read(USERS_URL, (data) => {
     console.log('server read users', data)
