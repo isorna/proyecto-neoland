@@ -22,6 +22,13 @@ app.get('/read/users', (req, res) => {
     res.send(JSON.stringify(data));
   });
 });
+// LOGIN: POST
+app.post('/login', (req, res) => {
+  crud.login(USERS_URL, req.body, (foundUserData) => {
+    console.log('server login', foundUserData)
+    res.send(JSON.stringify(foundUserData));
+  });
+})
 // CREACION: POST
 app.post('/create/users', (req, res) => {
   crud.create(USERS_URL, req.body, (data) => {

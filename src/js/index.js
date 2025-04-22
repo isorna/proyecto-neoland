@@ -55,18 +55,22 @@ function onStateChanged(event) {
  *
  * @param {Event} event - The event object associated with the form submission.
  */
-function onLogIn(event) {
+async function onLogIn(event) {
   event.preventDefault()
   let nameElement = document.getElementById('userName')
   let name = /** @type {HTMLInputElement} */(nameElement)?.value
   let emailElement = document.getElementById('userEmail')
   let email = /** @type {HTMLInputElement} */(emailElement)?.value
+  let newUser = new User(name, email, 'user')
+  // Para cuando usemos express:
+  const payload = JSON.stringify(newUser)
 
   // Buscar en la BBDD si existe el usuario
-  // let userExists = USER_DB.get().findIndex((user) => user.name === name && user.email === email)
-  let userExists = store.user.getAll().findIndex((/** @type {User} */user) => user.name === name && user.email === email)
+  // Usamos una petición HTTP para comprobar si el usuario existe
+  // @ts-expect-error: TODO Arreglarlo bien luego
+  const apiData = JSON.parse(await getAPIData(`${location.protocol}//${location.hostname}${API_PORT}/login`, 'POST', payload))
   // Y notificar en consecuencia
-  if (userExists >= 0) {
+  if (apiData.length >= 0) {
     // Guardamos los datos del usuario en la sesión
     // sessionStorage.setItem('user', JSON.stringify(USER_DB.get()[userExists]))
     let userFromREDUX = store.user.getByEmail?.(email)
@@ -84,8 +88,15 @@ function onLogIn(event) {
       document.body.classList.remove('loading')
     }, 1000)
   } else {
+    // Comprobar si en apiData existe algún error
+    console.error(apiData)
     document.getElementById('loginInMessageKo')?.classList.remove('hidden')
     document.getElementById('loginInMessageOk')?.classList.add('hidden')
+    if (/** @type {any} */(apiData)?.error === true) {
+      console.error(/** @type {any} */(apiData)?.message)
+      window.alert(/** @type {any} */(apiData)?.message)
+      return
+    }
   }
 }
 
