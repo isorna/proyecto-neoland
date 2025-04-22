@@ -14,6 +14,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }))
 
 // API ENDPOINTS
+// LECTURA: GET
 app.get('/read/users', (req, res) => {
   crud.read(USERS_URL, (data) => {
     console.log('server read users', data)
@@ -21,10 +22,24 @@ app.get('/read/users', (req, res) => {
     res.send(JSON.stringify(data));
   });
 });
-
+// CREACION: POST
 app.post('/create/users', (req, res) => {
   crud.create(USERS_URL, req.body, (data) => {
     console.log(`server create user ${data.name} creado`, data)
+    res.send(JSON.stringify(data));
+  });
+});
+// ACTUALIZACION: PUT (+id)
+app.put('/update/users/:id', (req, res) => {
+  crud.update(USERS_URL, req.params.id, req.body, (data) => {
+    console.log(`server update user ${data.name} actualizado`, data)
+    res.send(JSON.stringify(data));
+  });
+})
+// BORRRADO: DELETE (+id)
+app.delete('/delete/users/:id', (req, res) => {
+  crud.delete(USERS_URL, req.params.id, (data) => {
+    console.log(`server delete user ${data.name} borrado`, data)
     res.send(JSON.stringify(data));
   });
 });
