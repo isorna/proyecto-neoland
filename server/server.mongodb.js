@@ -13,6 +13,7 @@ export const db = {
   },
   users: {
     get: getUsers,
+    getClients: getClients,
     count: countUsers,
     logIn: logInUser,
     logOut: logoutUser,
@@ -44,6 +45,31 @@ async function getUsers(filter){
   const shoppinglistDB = client.db('shoppingList');
   const usersCollection = shoppinglistDB.collection('users');
   return await usersCollection.find(filter).project({_id: 1, email: 1}).toArray()
+}
+
+/**
+ * Retrieves clients from the 'users' collection in the 'shoppingList' database
+ * based on the provided user ID.
+ *
+ * @param {{_id: string}} param - An object containing the user's ID.
+ * @returns {Promise<Array<object>>} - A promise that resolves to an array of clients
+ * with selected fields.
+ */
+
+async function getClients({ _id }){
+  const client = new MongoClient(URI);
+  const shoppinglistDB = client.db('shoppingList');
+  const usersCollection = shoppinglistDB.collection('users');
+  // 1. Comprobar si el id del usuario proporcionado es administrador
+  const adminUser = await usersCollection.find({ _id: new ObjectId(_id) }).project({role: 1}).toArray()
+  // 2. Si lo es, devolver los clientes
+  if (adminUser.length && adminUser[0]?.role === 'admin') {
+    return await usersCollection.find({ role: 'user' }).project({name: 1, email: 1}).toArray()
+  } else {
+    return {
+      error: 'Unauthorized'
+    }
+  }
 }
 
 /**

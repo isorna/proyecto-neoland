@@ -40,6 +40,13 @@ app.delete('/api/delete/all/articles/', requireAuth, async (req, res) => {
 app.get('/api/read/users', async (req, res) => {
   res.json(await db.users.get())
 })
+// Uso id como el id del usuario administrador
+app.get('/api/read/clients/:id', async (req, res) => {
+  // Llamo al metodo de la BBDD
+  const clients = await db.users.getClients({ _id: req.params.id })
+  console.log('clients encontrados', clients, req.params.id)
+  res.json(clients)
+})
 app.post('/api/create/users', async (req, res) => {
   // 1. Comprobar si ya existe el usuario, usando getUsers
   const userExists = await db.users.get({ email: req.body.email })

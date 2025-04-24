@@ -186,7 +186,7 @@ async function onSignIn(event) {
   document.getElementById('signInMessageKo')?.classList.add('hidden')
   // Sustituir por llamada fetch al servidor de apis
   // Enviar el fetch a la API, crear nuevo usuario
-  const apiData = await getAPIData(`${location.protocol}//${location.hostname}${API_PORT}/create/users`, 'POST', payload)
+  const apiData = await getAPIData(`${location.protocol}//${location.hostname}${API_PORT}/api/create/users`, 'POST', payload)
   if (!apiData) {
     // Informo al usuario del resultado de la operación
     document.getElementById('signInMessageKo')?.classList.remove('hidden')
