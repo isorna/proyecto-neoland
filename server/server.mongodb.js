@@ -78,7 +78,6 @@ async function getClients({ _id }){
  * @param {object} user - The user object to be created.
  * @returns {Promise<object>} The result of the insert operation.
  */
-
 async function createUser(user) {
   const client = new MongoClient(URI);
   const shoppinglistDB = client.db('shoppingList');
