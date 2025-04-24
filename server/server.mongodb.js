@@ -43,7 +43,7 @@ async function getUsers(filter){
   const client = new MongoClient(URI);
   const shoppinglistDB = client.db('shoppingList');
   const usersCollection = shoppinglistDB.collection('users');
-  return await usersCollection.find(filter).toArray()
+  return await usersCollection.find(filter).project({_id: 1, email: 1}).toArray()
 }
 
 /**
