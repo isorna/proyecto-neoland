@@ -25,10 +25,12 @@ export const db = {
  * @returns {Promise<number>} The number of users in the collection.
  */
 async function countUsers() {
+  // const client = new MongoClient(URI);
+  // const shoppinglistDB = client.db('shoppingList');
+  // const usersCollection = shoppinglistDB.collection('users');
+  // return await usersCollection.countDocuments()
   const client = new MongoClient(URI);
-  const shoppinglistDB = client.db('shoppingList');
-  const usersCollection = shoppinglistDB.collection('users');
-  return await usersCollection.countDocuments()
+  return client.db('shoppingList').collection('users').countDocuments()
 }
 
 /**
@@ -55,6 +57,7 @@ async function logInUser({email, password}) {
   const shoppinglistDB = client.db('shoppingList');
   const usersCollection = shoppinglistDB.collection('users');
   // TODO: update token on DB
+  // READ: https://www.mongodb.com/docs/manual/tutorial/project-fields-from-query-results/
   return await usersCollection.findOne({ email, password }, { projection: { password: 0 } })
 }
 
