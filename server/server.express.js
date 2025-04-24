@@ -40,6 +40,16 @@ app.delete('/api/delete/all/articles/', requireAuth, async (req, res) => {
 app.get('/api/read/users', async (req, res) => {
   res.json(await db.users.get())
 })
+app.post('/api/create/users', async (req, res) => {
+  // 1. Comprobar si ya existe el usuario, usando getUsers
+  const userExists = await db.users.get({ email: req.body.email })
+  // 2. Si no existe, crearlo
+  if (userExists.length === 0) {
+    res.json(await db.users.create(req.body))
+  } else {
+    res.status(400).send('User already exists')
+  }
+})
 app.get('/api/filter/users/:name', async (req, res) => {
   // TODO: ver parámetros de búsqueda
   // https://www.mongodb.com/docs/manual/reference/operator/query/

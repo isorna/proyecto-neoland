@@ -15,7 +15,8 @@ export const db = {
     get: getUsers,
     count: countUsers,
     logIn: logInUser,
-    logOut: logoutUser
+    logOut: logoutUser,
+    create: createUser
   }
 }
 
@@ -43,6 +44,20 @@ async function getUsers(filter){
   const shoppinglistDB = client.db('shoppingList');
   const usersCollection = shoppinglistDB.collection('users');
   return await usersCollection.find(filter).toArray()
+}
+
+/**
+ * Creates a new user in the 'users' collection in the 'shoppingList' database.
+ *
+ * @param {object} user - The user object to be created.
+ * @returns {Promise<object>} The result of the insert operation.
+ */
+
+async function createUser(user) {
+  const client = new MongoClient(URI);
+  const shoppinglistDB = client.db('shoppingList');
+  const usersCollection = shoppinglistDB.collection('users');
+  return await usersCollection.insertOne(user)
 }
 
 /**
