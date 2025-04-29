@@ -7,7 +7,7 @@ import { store, INITIAL_STATE } from 'store/redux'
 /** @import {Article} from './classes/Article.js' */
 
 // Preparación para cuando trabajemos con express
-const API_PORT = location.port ? `:${1337}` : ''
+export const API_PORT = location.port ? `:${1337}` : ''
 const TIMEOUT = 10000
 
 window.addEventListener('DOMContentLoaded', onDOMContentLoaded)
@@ -338,4 +338,17 @@ export async function getAPIData(apiURL, method = 'GET', data) {
 function isUserLoggedIn() {
   const userData = getDataFromSessionStorage()
   return userData?.user?.token
+}
+
+/**
+ * Retrieves the value from the specified input element.
+ * @param {HTMLElement | null} inputElement - The input element from which to get the value.
+ * @returns {string} The value of the input element, or an empty string if the element is null.
+ */
+export function getInputValue(inputElement) {
+  if (inputElement) {
+    return /** @type {HTMLInputElement} */(inputElement).value
+  } else {
+    return ''
+  }
 }
