@@ -3,7 +3,7 @@ import { importTemplate } from '../../lib/importTemplate.js';
 // @ ts-expect-error TS doesn't like this
 import ResetCSS from '../../../css/reset.css' with { type: 'css' }
 // @ ts-expect-error TS doesn't like this
-import AppCSS from '../../../css/app.css' with { type: 'css' }
+import AppCSS from '../../../css/styles.css' with { type: 'css' }
 // @ ts-expect-error TS doesn't like this
 import LoginFormCSS from './LoginForm.css' with { type: 'css' }
 
