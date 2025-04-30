@@ -92,13 +92,13 @@ async function createUser(user) {
  * @param {{email: string, password: string}} data - The data to query the user.
  * @returns {Promise<object>} The user object if found, null otherwise.
  */
-async function logInUser({email, password}) {
+async function logInUser({name, email}) {
   const client = new MongoClient(URI);
   const shoppinglistDB = client.db('shoppingList');
   const usersCollection = shoppinglistDB.collection('users');
   // TODO: update token on DB
   // READ: https://www.mongodb.com/docs/manual/tutorial/project-fields-from-query-results/
-  return await usersCollection.findOne({ email, password }, { projection: { password: 0 } })
+  return await usersCollection.findOne({ name, email }, { projection: { password: 0 } })
 }
 
 /**
