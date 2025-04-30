@@ -38,7 +38,7 @@ export class SignInForm extends HTMLElement {
    *
    * @returns {HTMLTemplateElement} The HTML template element associated with the component.
    */
-  get template(){
+  get template() {
     return document.getElementById(TEMPLATE.id);
   }
 
@@ -106,59 +106,59 @@ export class SignInForm extends HTMLElement {
   * Replace any previous content with the template content.
   * @private
   */
- _setUpContent() {
-   // Prevent render when disconnected or the template is not loaded
-   if (this.shadowRoot && this.template) {
-     // Replace previous content
-     this.shadowRoot.innerHTML = '';
-     this.shadowRoot.appendChild(this.template.content.cloneNode(true));
-   }
- }
-
-/**
- * Updates the informational message displayed in the form.
- *
- * @param {String} newValue - The new message to display in the info section.
- * Updates the text content of the element with id 'infoMessage'.
- * Assumes that the element exists within the shadow DOM.
- * @private
- */
-
- _updateInfoMessage(newValue) {
-   const infoMessage = this.shadowRoot.getElementById('infoMessage');
-   infoMessage.textContent = newValue;
- }
-
- async _onFormSubmit(event) {
-   event.preventDefault();
-   const name = this.shadowRoot.getElementById("name");
-   const email = this.shadowRoot.getElementById("email");
-   const signInData = {
-     name: getInputValue(name),
-     email: getInputValue(email)
-   }
-  //  let onFormSubmitEvent
-
-   console.log(`DESDE DENTRO DEL COMPONENTE Name: ${signInData.name}, Email: ${signInData.email}`);
-
-   if (signInData.email !== '' && signInData.password !== '') {
-    const payload = JSON.stringify(signInData)
-    const apiData = await getAPIData(`${location.protocol}//${location.hostname}${API_PORT}/api/login`, 'POST', payload)
-    console.log(apiData)
-    // onFormSubmitEvent = new CustomEvent("login-form-submit", {
-    //   bubbles: true,
-    //   detail: apiData
-    // })
-  } else {
-    console.error('No hay datos')
-    // onFormSubmitEvent = new CustomEvent("login-form-submit", {
-    //   bubbles: true,
-    //   detail: null
-    // })
+  _setUpContent() {
+    // Prevent render when disconnected or the template is not loaded
+    if (this.shadowRoot && this.template) {
+      // Replace previous content
+      this.shadowRoot.innerHTML = '';
+      this.shadowRoot.appendChild(this.template.content.cloneNode(true));
+    }
   }
 
-  //  this.dispatchEvent(onFormSubmitEvent);
- }
+  /**
+   * Updates the informational message displayed in the form.
+   *
+   * @param {String} newValue - The new message to display in the info section.
+   * Updates the text content of the element with id 'infoMessage'.
+   * Assumes that the element exists within the shadow DOM.
+   * @private
+   */
+
+  _updateInfoMessage(newValue) {
+    const infoMessage = this.shadowRoot.getElementById('infoMessage');
+    infoMessage.textContent = newValue;
+  }
+
+  async _onFormSubmit(event) {
+    event.preventDefault();
+    const name = this.shadowRoot.getElementById("name");
+    const email = this.shadowRoot.getElementById("email");
+    const signInData = {
+      name: getInputValue(name),
+      email: getInputValue(email)
+    }
+    //  let onFormSubmitEvent
+
+    console.log(`DESDE DENTRO DEL COMPONENTE Name: ${signInData.name}, Email: ${signInData.email}`);
+
+    if (signInData.email !== '' && signInData.password !== '') {
+      const payload = JSON.stringify(signInData)
+      const apiData = await getAPIData(`${location.protocol}//${location.hostname}${API_PORT}/api/login`, 'POST', payload)
+      console.log(apiData)
+      // onFormSubmitEvent = new CustomEvent("login-form-submit", {
+      //   bubbles: true,
+      //   detail: apiData
+      // })
+    } else {
+      console.error('No hay datos')
+      // onFormSubmitEvent = new CustomEvent("login-form-submit", {
+      //   bubbles: true,
+      //   detail: null
+      // })
+    }
+
+    //  this.dispatchEvent(onFormSubmitEvent);
+  }
 }
 
 customElements.define('signin-form', SignInForm);
