@@ -1,4 +1,10 @@
 import { importTemplate } from '../../lib/importTemplate.js';
+// @ ts-expect-error TS doesn't like this
+import ResetCSS from '../../../css/reset.css' with { type: 'css' }
+// @ ts-expect-error TS doesn't like this
+import AppCSS from '../../../css/styles.css' with { type: 'css' }
+// @ ts-expect-error TS doesn't like this
+import SignInFormCSS from './SignInForm.css' with { type: 'css' }
 
 const TEMPLATE = {
   id: 'signInFormTemplate',
@@ -24,6 +30,12 @@ export class SignInForm extends HTMLElement {
   get color() {
     return this._color;
   }
+
+  /**
+   * Retrieves the template element from the document using the template ID.
+   *
+   * @returns {HTMLTemplateElement} The HTML template element associated with the component.
+   */
   get template(){
     return document.getElementById(TEMPLATE.id);
   }
@@ -45,7 +57,7 @@ export class SignInForm extends HTMLElement {
     console.log("2. constructor: Custom element added to page.");
     // Necesitamos activar el shadow DOM para poder añadir la plantilla html
     this.attachShadow({ mode: "open" });
-    // this.shadowRoot.adoptedStyleSheets.push(ResetCSS, AppCSS, SignInFormCSS);
+    this.shadowRoot.adoptedStyleSheets.push(ResetCSS, AppCSS, SignInFormCSS);
     this._setUpContent();
   }
 

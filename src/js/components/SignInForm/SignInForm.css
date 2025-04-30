@@ -1,3 +1,8 @@
 form {
   --default-form-bg-color: #666;
+
+  button {
+    background-color: #50cc71;
+    color: white;
+  }
 }

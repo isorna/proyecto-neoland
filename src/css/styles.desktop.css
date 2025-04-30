@@ -1,3 +1,4 @@
+/* stylelint-disable no-descending-specificity */
 
 /**
  HOJA DE ESTILOS PARA ESCRITORIO (min-width: 481px)
@@ -62,6 +63,7 @@ body {
     display: flex;
     flex-direction: column;
 
+    signin-form,
     form {
       display: flex;
       gap: 10px 20px;
