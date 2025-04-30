@@ -1,6 +1,24 @@
 form {
   --default-form-bg-color: #666;
 
+  display: flex;
+  gap: 10px 20px;
+  background-color: var(--default-form-bg-color);
+  color: white;
+
+  /* Uso un margen negativo para salirme del main */
+  margin: 0 -112px;
+
+  /* compenso con un padding el margen negativo, y devuelvo a su sitio la capa */
+  padding: 20px 112px;
+
+  &>p {
+    background-color: #50cc71;
+    color: white;
+    border-radius: 5px;
+    padding: 10px;
+  }
+
   button {
     background-color: #50cc71;
     color: white;
