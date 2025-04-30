@@ -5,6 +5,8 @@
  */
 
 html {
+  --default-form-bg-color: #444;
+
   font-family: sans-serif;
   font-size: 18px;
   background-color: #444;
@@ -48,7 +50,7 @@ html {
 
     main {
       form {
-        background-color: #444;
+        background-color: var(--default-form-bg-color);
         color: white;
 
         &>p {
