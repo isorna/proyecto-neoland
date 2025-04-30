@@ -189,14 +189,10 @@ html {
   }
 }
 
-/* form,
-signin-form {
-  background-color: var(--default-form-bg-color);
-  color: white;
+/* ESTILOS GLOBALES PARA LOS COMPONENTES WEB */
 
-  &>p {
-    background-color: #50cc71;
-    color: white;
-    border-radius: 5px;
-  }
-} */
+button {
+  text-transform: uppercase;
+  font-weight: bold;
+  white-space: nowrap;
+}
