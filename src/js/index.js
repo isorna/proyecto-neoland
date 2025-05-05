@@ -28,6 +28,7 @@ function onDOMContentLoaded() {
   let signOutForm = document.getElementById('signOutForm')
   let signInFormWc = document.querySelector('signin-form')
   let signInFormLit = document.querySelector('signin-form-lit')
+  let fillSignInFormButton = document.getElementById('fillSignInForm')
 
   signInForm?.addEventListener('submit', onSignIn)
   logInForm?.addEventListener('submit', onLogIn)
@@ -53,7 +54,19 @@ function onDOMContentLoaded() {
     mostrarFormularioLit()
   })
 
+  fillSignInFormButton?.addEventListener('click', fillLoginForm)
+
   window.addEventListener('stateChanged', onStateChanged)
+}
+
+/**
+ * Rellena el formulario de inicio de sesión con valores de prueba
+ * @listens click
+ */
+function fillLoginForm(){
+  const loginLitForm = document.querySelector('signin-form-lit')
+  loginLitForm?.setAttribute('name', 'Alvaro')
+  loginLitForm?.setAttribute('email', 'alvaro@isorna')
 }
 
 /**

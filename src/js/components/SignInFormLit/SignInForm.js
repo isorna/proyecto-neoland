@@ -1,6 +1,7 @@
 // Si no usamos el Starter Kit:
 import { LitElement, html } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/all/lit-all.min.js';
-import { getAPIData, getInputValue, API_PORT } from '../../index.js';
+// import { getAPIData, getInputValue, API_PORT } from '../../index.js';
+import { getAPIData, API_PORT } from '../../index.js';
 // Si usamos el Starter Kit:
 // import { LitElement, html } from 'lit';
 // @ ts-expect-error TS doesn't like this
@@ -18,6 +19,8 @@ export class SignInFormLit extends LitElement {
     // Propiedad reactiva y pública por medio de un atributo HTML
     info: { type: String },
     lista: { type: Array },
+    name: { type: String },
+    email: { type: String },
     // Propiedad privada (estado)
     _loginAttempts: { type: Number, state: true }
   }
@@ -26,6 +29,8 @@ export class SignInFormLit extends LitElement {
     super();
     this.info = 'Registro del usuario';
     this.lista = [];
+    this.name = '';
+    this.email = '';
     this._loginAttempts = 0;
   }
 
@@ -34,8 +39,20 @@ export class SignInFormLit extends LitElement {
       <form id="signInForm" @submit="${this._onFormSubmit}">
         <slot></slot>
         <p id="infoMessage">${this.info}${this._getLoginAttempts()}</p>
-        <input type="text" id="name" placeholder="Nombre de usuario" required>
-        <input type="email" id="email" placeholder="Email" required>
+        <input
+          type="text"
+          id="name"
+          placeholder="Nombre de usuario"
+          .value="${this.name}"
+          @input="${this._nameChanged}"
+          required>
+        <input
+          type="email"
+          id="email"
+          placeholder="Email"
+          .value="${this.email}"
+          @input="${this._emailChanged}"
+          required>
         <button type="submit">Sign In</button>
         <button type="button" @click="${this._mostrarFormularioWebComponents}">MOSTRAR FORM WC</button>
       </form>
@@ -52,6 +69,14 @@ export class SignInFormLit extends LitElement {
     this.dispatchEvent(myCustomEvent);
   }
 
+  _nameChanged(e) {
+    this.name = e.target.value;
+  }
+
+  _emailChanged(e) {
+    this.email = e.target.value;
+  }
+
   /**
    * Returns a string indicating how many times the user has tried to sign in
    *
@@ -64,11 +89,15 @@ export class SignInFormLit extends LitElement {
 
   async _onFormSubmit(event) {
     event.preventDefault();
-    const name = this.renderRoot.getElementById("name");
-    const email = this.renderRoot.getElementById("email");
+    // const name = this.renderRoot.getElementById("name");
+    // const email = this.renderRoot.getElementById("email");
+    // const signInData = {
+    //   name: getInputValue(name),
+    //   email: getInputValue(email)
+    // }
     const signInData = {
-      name: getInputValue(name),
-      email: getInputValue(email)
+      name: this.name,
+      email: this.email
     }
     let onFormSubmitEvent
 
