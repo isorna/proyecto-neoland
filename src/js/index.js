@@ -26,6 +26,7 @@ function onDOMContentLoaded() {
   let logInForm = document.getElementById('logInForm')
   let logOutForm = document.getElementById('logOutForm')
   let signOutForm = document.getElementById('signOutForm')
+  let signInFormLit = document.querySelector('signin-form-lit')
 
   signInForm?.addEventListener('submit', onSignIn)
   logInForm?.addEventListener('submit', onLogIn)
@@ -35,6 +36,11 @@ function onDOMContentLoaded() {
   checkLoggedIn()
   // DEBUG:
   console.log('CONTENIDO DE REDUX AL CARGAR LA PÁGINA', store.getState())
+
+  // Observo los eventos de los web components
+  signInFormLit?.addEventListener('login-form-submit', (event) => {
+    console.log('login-form-submit recogido desde el index.js', event?.detail)
+  })
 
   window.addEventListener('stateChanged', onStateChanged)
 }

@@ -34,24 +34,35 @@ export class SignInFormLit extends LitElement {
       name: getInputValue(name),
       email: getInputValue(email)
     }
+    let onFormSubmitEvent
 
     console.log(`DESDE DENTRO DEL COMPONENTE Name: ${signInData.name}, Email: ${signInData.email}`);
 
     if (signInData.email !== '' && signInData.password !== '') {
       const payload = JSON.stringify(signInData)
       const apiData = await getAPIData(`${location.protocol}//${location.hostname}${API_PORT}/api/login`, 'POST', payload)
-      console.log(apiData)
-      // onFormSubmitEvent = new CustomEvent("login-form-submit", {
-      //   bubbles: true,
-      //   detail: apiData
-      // })
+      console.log('respuesta de la API', apiData)
+      let eventDetail = apiData
+      if (apiData === undefined) {
+        eventDetail = {
+          text: 'No he encontrado el usuario o la contraseña'
+        }
+      }
+      onFormSubmitEvent = new CustomEvent("login-form-submit", {
+        bubbles: true,
+        detail: eventDetail
+      })
     } else {
-      console.error('No hay datos')
-      // onFormSubmitEvent = new CustomEvent("login-form-submit", {
-      //   bubbles: true,
-      //   detail: null
-      // })
+      console.error('No se han enviado datos')
+      onFormSubmitEvent = new CustomEvent("login-form-submit", {
+        bubbles: true,
+        detail: {
+          text: 'No se han enviado los datos del formulario'
+        }
+      })
     }
+
+    this.dispatchEvent(onFormSubmitEvent);
   }
 }
 customElements.define('signin-form-lit', SignInFormLit);
