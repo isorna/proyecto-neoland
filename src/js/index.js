@@ -26,6 +26,7 @@ function onDOMContentLoaded() {
   let logInForm = document.getElementById('logInForm')
   let logOutForm = document.getElementById('logOutForm')
   let signOutForm = document.getElementById('signOutForm')
+  let signInFormWc = document.querySelector('signin-form')
   let signInFormLit = document.querySelector('signin-form-lit')
 
   signInForm?.addEventListener('submit', onSignIn)
@@ -40,6 +41,15 @@ function onDOMContentLoaded() {
   // Observo los eventos de los web components
   signInFormLit?.addEventListener('login-form-submit', (event) => {
     console.log('login-form-submit recogido desde el index.js', event?.detail)
+  })
+
+  signInFormLit?.addEventListener('mostrar-form-wc', () => {
+    ocultarFormularioLit()
+    mostrarFormularioWebComponents()
+  })
+  signInFormWc?.addEventListener('mostrar-form-lit', () => {
+    ocultarFormularioWebComponents()
+    mostrarFormularioLit()
   })
 
   window.addEventListener('stateChanged', onStateChanged)
@@ -357,4 +367,17 @@ export function getInputValue(inputElement) {
   } else {
     return ''
   }
+}
+
+function ocultarFormularioWebComponents() {
+  document.querySelector('signin-form')?.classList.add('hidden')
+}
+function mostrarFormularioWebComponents() {
+  document.querySelector('signin-form')?.classList.remove('hidden')
+}
+function ocultarFormularioLit() {
+  document.querySelector('signin-form-lit')?.classList.add('hidden')
+}
+function mostrarFormularioLit() {
+  document.querySelector('signin-form-lit')?.classList.remove('hidden')
 }

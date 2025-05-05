@@ -66,6 +66,8 @@ export class SignInForm extends HTMLElement {
     // Ahora que ya existe el shadowRoot, podemos asignar eventos a nuestro HTML
     const signInForm = this.shadowRoot.getElementById("signInForm");
     signInForm.addEventListener("submit", this._onFormSubmit.bind(this));
+    const mostrarFormularioLitButton = this.shadowRoot.getElementById("mostrarFormularioLitButton");
+    mostrarFormularioLitButton.addEventListener("click", this._mostrarFormularioLit.bind(this));
   }
 
   disconnectedCallback() {
@@ -158,6 +160,12 @@ export class SignInForm extends HTMLElement {
     }
 
     //  this.dispatchEvent(onFormSubmitEvent);
+  }
+
+  _mostrarFormularioLit() {
+    let myCustomEvent = new CustomEvent('mostrar-form-lit', { bubbles: true })
+
+    this.dispatchEvent(myCustomEvent);
   }
 }
 

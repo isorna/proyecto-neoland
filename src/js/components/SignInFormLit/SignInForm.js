@@ -21,11 +21,18 @@ export class SignInFormLit extends LitElement {
         <input type="text" id="name" placeholder="Nombre de usuario" required>
         <input type="email" id="email" placeholder="Email" required>
         <button type="submit">Sign In</button>
+        <button @click="${this._mostrarFormularioWebComponents}">MOSTRAR FORM WC</button>
       </form>
     `;
   }
 
   // Private Methods
+  _mostrarFormularioWebComponents() {
+    let myCustomEvent = new CustomEvent('mostrar-form-wc', { bubbles: true })
+
+    this.dispatchEvent(myCustomEvent);
+  }
+
   async _onFormSubmit(event) {
     event.preventDefault();
     const name = this.renderRoot.getElementById("name");
