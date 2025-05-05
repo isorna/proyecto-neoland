@@ -13,16 +13,35 @@ import SignInFormCSS from './../SignInForm/SignInForm.css' with { type: 'css' }
 export class SignInFormLit extends LitElement {
   static styles = [ResetCSS, AppCSS, SignInFormCSS];
 
+  // API de propiedades del componente
+  static properties = {
+    // Propiedad reactiva y pública por medio de un atributo HTML
+    info: { type: String },
+    lista: { type: Array },
+    // Propiedad privada (estado)
+    _loginAttempts: { type: Number, state: true }
+  }
+
+  constructor() {
+    super();
+    this.info = 'Registro del usuario';
+    this.lista = [];
+    this._loginAttempts = 0;
+  }
+
   render() {
     return html`
       <form id="signInForm" @submit="${this._onFormSubmit}">
         <slot></slot>
-        <p id="infoMessage">Registro del usuario</p>
+        <p id="infoMessage">${this.info}${this._getLoginAttempts()}</p>
         <input type="text" id="name" placeholder="Nombre de usuario" required>
         <input type="email" id="email" placeholder="Email" required>
         <button type="submit">Sign In</button>
-        <button @click="${this._mostrarFormularioWebComponents}">MOSTRAR FORM WC</button>
+        <button type="button" @click="${this._mostrarFormularioWebComponents}">MOSTRAR FORM WC</button>
       </form>
+      <ul>
+      ${this.lista.map(item => html`<li>Elemento: ${item}</li>`)}
+      </ul>
     `;
   }
 
@@ -31,6 +50,16 @@ export class SignInFormLit extends LitElement {
     let myCustomEvent = new CustomEvent('mostrar-form-wc', { bubbles: true })
 
     this.dispatchEvent(myCustomEvent);
+  }
+
+  /**
+   * Returns a string indicating how many times the user has tried to sign in
+   *
+   * @private
+   * @returns {string} A string with the number of login attempts if the number is greater than 0
+   */
+  _getLoginAttempts() {
+    return this._loginAttempts > 0 ? ` (${this._loginAttempts} intentos de login)` : '';
   }
 
   async _onFormSubmit(event) {
@@ -46,6 +75,8 @@ export class SignInFormLit extends LitElement {
     console.log(`DESDE DENTRO DEL COMPONENTE Name: ${signInData.name}, Email: ${signInData.email}`);
 
     if (signInData.email !== '' && signInData.password !== '') {
+      // Incrementamos el número de intentos de login
+      this._loginAttempts++
       const payload = JSON.stringify(signInData)
       const apiData = await getAPIData(`${location.protocol}//${location.hostname}${API_PORT}/api/login`, 'POST', payload)
       console.log('respuesta de la API', apiData)

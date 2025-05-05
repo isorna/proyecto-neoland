@@ -40,6 +40,7 @@ function onDOMContentLoaded() {
 
   // Observo los eventos de los web components
   signInFormLit?.addEventListener('login-form-submit', (event) => {
+    // Aquí decido qué hacer una vez lanzado el login
     console.log('login-form-submit recogido desde el index.js', event?.detail)
   })
 
