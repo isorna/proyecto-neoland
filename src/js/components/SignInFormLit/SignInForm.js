@@ -1,5 +1,5 @@
 // Si no usamos el Starter Kit:
-import { LitElement, html } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/all/lit-all.min.js';
+import { LitElement, html, classMap } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/all/lit-all.min.js';
 // import { getAPIData, getInputValue, API_PORT } from '../../index.js';
 import { getAPIData, API_PORT } from '../../index.js';
 // Si usamos el Starter Kit:
@@ -10,6 +10,7 @@ import ResetCSS from '../../../css/reset.css' with { type: 'css' }
 import AppCSS from '../../../css/styles.css' with { type: 'css' }
 // @ ts-expect-error TS doesn't like this
 import SignInFormCSS from './../SignInForm/SignInForm.css' with { type: 'css' }
+// import { classMap } from 'lit/directives/class-map.js';
 
 export class SignInFormLit extends LitElement {
   static styles = [ResetCSS, AppCSS, SignInFormCSS];
@@ -35,6 +36,11 @@ export class SignInFormLit extends LitElement {
   }
 
   render() {
+    const clasesInput = {
+      readonly: this._loginAttempts > 2,
+      error: this._loginAttempts > 1,
+      input: true
+    }
     return html`
       <form id="signInForm" @submit="${this._onFormSubmit}">
         <slot></slot>
@@ -45,6 +51,8 @@ export class SignInFormLit extends LitElement {
           placeholder="Nombre de usuario"
           .value="${this.name}"
           @input="${this._nameChanged}"
+          class="${classMap(clasesInput)}"
+          ?readonly=${this._loginAttempts > 2}
           required>
         <input
           type="email"
@@ -56,10 +64,16 @@ export class SignInFormLit extends LitElement {
         <button type="submit">Sign In</button>
         <button type="button" @click="${this._mostrarFormularioWebComponents}">MOSTRAR FORM WC</button>
       </form>
+      ${this._getLista()}
+    `;
+  }
+
+  _getLista() {
+    return (this.lista.length > 0) ? html`
+      <h2>Lista</h2>
       <ul>
       ${this.lista.map(item => html`<li>Elemento: ${item}</li>`)}
-      </ul>
-    `;
+      </ul>` : html`<p>No hay lista</p>`;
   }
 
   // Private Methods
