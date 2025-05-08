@@ -53,14 +53,14 @@ export class SignInFormLit extends LitElement {
           @input="${this._nameChanged}"
           class="${classMap(clasesInput)}"
           ?readonly=${this._loginAttempts > 2}
-          required>
+          required />
         <input
           type="email"
           id="email"
           placeholder="Email"
           .value="${this.email}"
           @input="${this._emailChanged}"
-          required>
+          required />
         <button type="submit">Sign In</button>
         <button type="button" @click="${this._mostrarFormularioWebComponents}">MOSTRAR FORM WC</button>
       </form>
