@@ -36,6 +36,8 @@ function Login({ mensaje }) {
   const [listaUsuarios, setListaUsuarios] = useState([])
   const [loginAttempts, setLoginAttempts] = useState(0)
 
+  console.log('render')
+
   // Formulario para hacer login
   return (
     <>
