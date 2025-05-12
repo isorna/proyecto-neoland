@@ -43,6 +43,7 @@ export class SignInFormLit extends LitElement {
     }
     return html`
       <form id="signInForm" @submit="${this._onFormSubmit}">
+        <h1>Sign In Form</h1>
         <slot></slot>
         <p id="infoMessage">${this.info}${this._getLoginAttempts()}</p>
         <input

@@ -334,6 +334,14 @@ export async function getAPIData(apiURL, method = 'GET', data) {
       const userData = getDataFromSessionStorage()
       headers.append('Authorization', `Bearer ${userData?.user?.token}`)
     }
+    // Si no existe la API de timeout (por ejemplo en jest), la creamos
+    if (!AbortSignal.timeout) {
+      AbortSignal.timeout = (ms) => {
+        const controller = new AbortController();
+        setTimeout(() => controller.abort(new DOMException('TimeoutError')), ms);
+        return controller.signal;
+      };
+    }
     apiData = await simpleFetch(apiURL, {
       // Si la petición tarda demasiado, la abortamos
       signal: AbortSignal.timeout(TIMEOUT),
@@ -343,16 +351,23 @@ export async function getAPIData(apiURL, method = 'GET', data) {
     });
   } catch (/** @type {any | HttpError} */err) {
     // En caso de error, controlamos según el tipo de error
+    let errorMessage = err
     if (err.name === 'AbortError') {
-      console.error('Fetch abortado');
+      errorMessage = 'Fetch abortado';
     }
     if (err instanceof HttpError) {
       if (err.response.status === 404) {
-        console.error('Not found');
+        errorMessage = 'Not found';
       }
       if (err.response.status === 500) {
-        console.error('Internal server error');
+        errorMessage = 'Internal server error';
       }
+    }
+    console.error(errorMessage);
+
+    apiData = {
+      text: errorMessage,
+      ok: false
     }
   }
 
