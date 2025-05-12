@@ -10,6 +10,7 @@ import { HttpError } from 'classes/HttpError'
  * @throws {HttpError} If the response status is not 2xx.
  */
 export async function simpleFetch (url, options) {
+  console.log('simpleFetch', url);
   const result = await fetch(url, options);
   if (!result.ok) {
     throw new HttpError(result);
